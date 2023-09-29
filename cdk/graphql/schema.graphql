@@ -1,0 +1,129 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    getAllChefs: [Chef]
+    getChefById(chefId: String!): Chef
+    getAllChefsByTag(tagName: String!): [Chef]
+
+    getAllPosts(author: String!): [Post]
+    getAllPostsFromAllChefs: [Post]
+    getPostById(author: String!, postId: String!): Post
+    getAllPostsByTag(tagName: String!): [Post]
+
+    getCommentById(commID: String!): Comment 
+
+    getTagById(tagName: String!): Tag
+    getAllTags: [Tag]
+
+    getReviewById(reviewId: String!): Review
+    getAllReviews: [Review]
+}
+
+type Mutation {
+    createChef(chefInput: ChefInput): Chef @aws_cognito_user_pools
+    deleteChef(chef: String!, chefId: String!): String @aws_cognito_user_pools
+    updateChef(
+        chef: String!
+        chefId: String!
+        chefInput: ChefInput!
+    ): Chef @aws_cognito_user_pools
+
+    createPost(post: PostInput): Post @aws_cognito_user_pools
+    deletePost(author: String!, postId: String!): String @aws_cognito_user_pools
+    updatePost(
+      author: String!
+      postId: String!
+      post: PostInput!
+    ): Post @aws_cognito_user_pools   
+
+    createComment(comment: CommentInput): Comment @aws_cognito_user_pools
+    deleteComment(author: String!, commId: String!): String @aws_cognito_user_pools
+    updateComment(
+      author: String!
+      postId: String!
+      comment: CommentInput!
+    ): Comment @aws_cognito_user_pools    
+
+    createTag(tagName: String!): Tag @aws_cognito_user_pools
+    deleteTag(tagId: String!): String @aws_cognito_user_pools
+
+    createReview(reviewInput: ReviewInput): Review @aws_cognito_user_pools
+    deleteReview(reviewId: String): String @aws_cognito_user_pools
+    updateReview(
+        client: String!
+        reviewId: String!
+        review: ReviewInput!
+    ): Review @aws_cognito_user_pools
+}
+
+input ChefInput {
+    name: String!
+    bio: String!
+    location: String!
+    tags: [String]
+    email: String!
+    imageUrl: AWSURL!
+    backgroundImageUrl: AWSURL!
+}
+
+input PostInput {
+    body: String!
+    imageUrl: AWSURL!
+}
+
+input CommentInput {
+    body: String!
+}
+
+input ReviewInput {
+    chefId: ID!
+    client: String!
+    rating: Float!
+}
+
+type Chef {
+    chefId: ID!
+    name: String!
+    bio: String!
+    location: String!
+    cuisine: [String]
+    email: String!
+    createdAt: String!
+    imageUrl: AWSURL!
+    backgroundImageUrl: AWSURL!
+    followers: Int!
+    accolades: [String]
+    reviews: [Review]
+}
+
+type Post {
+    postId: ID!
+    body: String!
+    imageUrl: AWSURL!
+    likes: Int!
+    createdAt: String!
+    tags: [String]
+}
+
+type Comment {
+    commentId: ID!
+    body: String!
+    likes: Int!
+    createdAt: String!
+}
+
+type Tag {
+    tagId: ID!
+    tagName: String!
+}
+
+type Review {
+    reviewId: ID!
+    chefId: ID!
+    client: String!
+    rating: Float!
+    createdAt: String!
+}
