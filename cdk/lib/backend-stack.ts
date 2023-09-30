@@ -129,10 +129,6 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         typeName: "Query",
         fieldName: "getChefById",
       })
-      chefSiteDataSource.createResolver({
-        typeName: "Query",
-        fieldName: "getAllChefsByTag",
-      })
 
       chefSiteDataSource.createResolver({
         typeName: "Mutation",
@@ -159,10 +155,6 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       chefSiteDataSource.createResolver({
         typeName: "Query",
         fieldName: "getPostById",
-      })
-      chefSiteDataSource.createResolver({
-        typeName: "Query",
-        fieldName: "getAllPostsByTag",
       })
       chefSiteDataSource.createResolver({
         typeName: "Mutation",

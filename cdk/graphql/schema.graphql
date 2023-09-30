@@ -5,13 +5,13 @@ schema {
 
 type Query {
     getAllChefs: [Chef]
-    getChefById(chefId: String!): Chef
-    getAllChefsByTag(tagName: String!): [Chef]
+    getChefById(name: String!, chefId: String!): Chef
+    # this query is unnecessary. can query for posts of a certain tag and display the post with the chef
+    # getAllChefsByTag(tagName: String!): [Chef]
 
-    getAllPosts(author: String!): [Post]
+    getAllPosts(name: String!): [Post]
     getAllPostsFromAllChefs: [Post]
-    getPostById(author: String!, postId: String!): Post
-    getAllPostsByTag(tagName: String!): [Post]
+    getPostById(name: String!, postId: String!): Post
 
     getCommentById(commID: String!): Comment 
 
@@ -24,27 +24,27 @@ type Query {
 
 type Mutation {
     createChef(chefInput: ChefInput): Chef @aws_cognito_user_pools
-    deleteChef(chef: String!, chefId: String!): String @aws_cognito_user_pools
+    deleteChef(name: String!, chefId: String!): String @aws_cognito_user_pools
     updateChef(
-        chef: String!
+        name: String!
         chefId: String!
         chefInput: ChefInput!
     ): Chef @aws_cognito_user_pools
 
-    createPost(post: PostInput): Post @aws_cognito_user_pools
-    deletePost(author: String!, postId: String!): String @aws_cognito_user_pools
+    createPost(postInput: PostInput): Post @aws_cognito_user_pools
+    deletePost(name: String!, postId: String!): String @aws_cognito_user_pools
     updatePost(
-      author: String!
+      postAuthor: String!
       postId: String!
-      post: PostInput!
+      postInput: PostInput!
     ): Post @aws_cognito_user_pools   
 
-    createComment(comment: CommentInput): Comment @aws_cognito_user_pools
-    deleteComment(author: String!, commId: String!): String @aws_cognito_user_pools
+    createComment(commentInput: CommentInput): Comment @aws_cognito_user_pools
+    deleteComment(commAuthor: String!, commId: String!): String @aws_cognito_user_pools
     updateComment(
-      author: String!
-      postId: String!
-      comment: CommentInput!
+      commAuthor: String!
+      commId: String!
+      commentInput: CommentInput!
     ): Comment @aws_cognito_user_pools    
 
     createTag(tagName: String!): Tag @aws_cognito_user_pools
@@ -55,7 +55,7 @@ type Mutation {
     updateReview(
         client: String!
         reviewId: String!
-        review: ReviewInput!
+        reviewInput: ReviewInput!
     ): Review @aws_cognito_user_pools
 }
 
@@ -76,6 +76,9 @@ input PostInput {
 
 input CommentInput {
     body: String!
+    commAuthor: String!
+    postId: String!
+    postAuthor: String!
 }
 
 input ReviewInput {
@@ -89,14 +92,14 @@ type Chef {
     name: String!
     bio: String!
     location: String!
-    cuisine: [String]
+    tags: [String]
     email: String!
     createdAt: String!
+    updatedAt: String!
     imageUrl: AWSURL!
     backgroundImageUrl: AWSURL!
     followers: Int!
     accolades: [String]
-    reviews: [Review]
 }
 
 type Post {
@@ -104,20 +107,25 @@ type Post {
     body: String!
     imageUrl: AWSURL!
     likes: Int!
-    createdAt: String!
     tags: [String]
+    createdAt: String!
+    updatedAt: String!   
 }
 
 type Comment {
     commentId: ID!
+    commAuthor: String;
     body: String!
     likes: Int!
     createdAt: String!
+    updatedAt: String!
 }
 
 type Tag {
     tagId: ID!
     tagName: String!
+    count: Int!
+    createdAt: String!
 }
 
 type Review {
@@ -126,4 +134,5 @@ type Review {
     client: String!
     rating: Float!
     createdAt: String!
+    updatedAt: String!
 }
