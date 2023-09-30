@@ -67,7 +67,7 @@ const createPost = async (postInput: PostInput) => {
         const data = await docClient.batchWrite(params).promise();
         console.log(`Created post: ${JSON.stringify(post, null, 2)}`);
         if(data) {
-            createTag(post);
+            await createTag(post);
         }
         return post;
     } catch (err) {

@@ -9,14 +9,12 @@ const getAllChefs = async () => {
 
   const params: ddbQueryPostsParams = {
     TableName: process.env.POSTS_TABLE || "",
-    KeyConditionExpression: "#PK = :post_partition AND begins_with(#SK, :sk_prefix)",
+    KeyConditionExpression: "#PK = :post_partition",
     ExpressionAttributeNames: {
       "#PK": "PK",
-      "#SK": "SK",
     },
     ExpressionAttributeValues: {
       ":post_partition": "CHEFS",
-      ":sk_prefix": "CHEF#",
     },
     ReturnConsumedCapacity: "TOTAL",
     ScanIndexForward: false, // Set this to true for ascending order

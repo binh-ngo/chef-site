@@ -9,9 +9,9 @@ type Query {
     # this query is unnecessary. can query for posts of a certain tag and display the post with the chef
     # getAllChefsByTag(tagName: String!): [Chef]
 
-    getAllPosts(name: String!): [Post]
+    getAllPosts(postAuthor: String!): [Post]
     getAllPostsFromAllChefs: [Post]
-    getPostById(name: String!, postId: String!): Post
+    getPostById(postAuthor: String!, postId: String!): Post
 
     getCommentById(commID: String!): Comment 
 
@@ -32,7 +32,7 @@ type Mutation {
     ): Chef @aws_cognito_user_pools
 
     createPost(postInput: PostInput): Post @aws_cognito_user_pools
-    deletePost(name: String!, postId: String!): String @aws_cognito_user_pools
+    deletePost(postAuthor: String!, postId: String!): String @aws_cognito_user_pools
     updatePost(
       postAuthor: String!
       postId: String!
@@ -60,34 +60,36 @@ type Mutation {
 }
 
 input ChefInput {
-    name: String!
-    bio: String!
-    location: String!
+    name: String
+    bio: String
+    location: String
     tags: [String]
-    email: String!
-    imageUrl: AWSURL!
-    backgroundImageUrl: AWSURL!
+    email: String
+    imageUrl: AWSURL
+    backgroundImageUrl: AWSURL
 }
 
 input PostInput {
-    body: String!
-    imageUrl: AWSURL!
+    postAuthor: String
+    body: String
+    imageUrl: AWSURL
+    tags: [String]
 }
 
 input CommentInput {
-    body: String!
-    commAuthor: String!
-    postId: String!
-    postAuthor: String!
+    body: String
+    commAuthor: String
+    postId: String
+    postAuthor: String
 }
 
 input ReviewInput {
-    chefId: ID!
-    client: String!
-    rating: Float!
+    chefId: ID
+    client: String
+    rating: Float
 }
 
-type Chef {
+type Chef @aws_api_key @aws_cognito_user_pools {
     chefId: ID!
     name: String!
     bio: String!
@@ -102,8 +104,9 @@ type Chef {
     accolades: [String]
 }
 
-type Post {
+type Post @aws_api_key @aws_cognito_user_pools {
     postId: ID!
+    postAuthor: String!
     body: String!
     imageUrl: AWSURL!
     likes: Int!
@@ -112,7 +115,7 @@ type Post {
     updatedAt: String!   
 }
 
-type Comment {
+type Comment @aws_api_key @aws_cognito_user_pools {
     commentId: ID!
     commAuthor: String;
     body: String!
@@ -121,14 +124,14 @@ type Comment {
     updatedAt: String!
 }
 
-type Tag {
+type Tag @aws_api_key @aws_cognito_user_pools {
     tagId: ID!
     tagName: String!
     count: Int!
     createdAt: String!
 }
 
-type Review {
+type Review @aws_api_key @aws_cognito_user_pools {
     reviewId: ID!
     chefId: ID!
     client: String!

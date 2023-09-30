@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
-import { ChefInput } from "../types";
+import { Chef, ChefInput } from "../types";
+import getChefById from "./getChefById";
 
 const updateChef = async (
     name: string,
@@ -15,8 +16,11 @@ const updateChef = async (
     if (!name || !chefId) {
         return { statusCode: 400, body: 'invalid request, you are missing the pk or sk.' };
     }
-    
-        const chef: ChefInput = {
+
+    const retrievedChef = await getChefById(name, chefId);
+
+        const chef: Chef = {
+            chefId,
             name: chefInput.name,
             bio: chefInput.bio,
             location: chefInput.location,
@@ -25,20 +29,24 @@ const updateChef = async (
             imageUrl: chefInput.imageUrl,
             backgroundImageUrl: chefInput.backgroundImageUrl,
             updatedAt: new Date().toISOString(),
+            createdAt: retrievedChef.createdAt,
+            followers: retrievedChef.followers,
+            accolades: retrievedChef.accolades
         };
 
         console.log(`UPDATE question called with:` + JSON.stringify(` UserPK: ${name} and UserSk: ${chefId}`));
         // const eventBody = JSON.parse(event.body);
         // console.log(`EVENT BODY ${eventBody}`);
         console.log(`TYPEOF QUESTIONINPUT --------- ${typeof (chefInput)}`);
-    const params = {
+    
+        const params = {
         TableName: process.env.POSTS_TABLE,
         Key: {
             PK: `CHEF#${name}`,
             SK: `CHEF#${chefId}`,
         },
         UpdateExpression:
-            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #backgroundImageUrl = :backgroundImageUrl, #updatedAt = :updatedAt, #tags = :tags",
+            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #backgroundImageUrl = :backgroundImageUrl, #updatedAt = :updatedAt, #tags = :tags, #createdAt = :createdAt, #accolades = :accolades, #chefId = :chefId",
         ExpressionAttributeNames: {
             "#name": "name",
             "#bio": "bio",
@@ -48,6 +56,9 @@ const updateChef = async (
             "#imageUrl": "imageUrl",
             "#backgroundImageUrl": "backgroundImageUrl",
             "#updatedAt": "updatedAt",
+            "#createdAt": "createdAt",
+            "#accolades": "accolades",
+            "#chefId": "chefId",
         },
         ExpressionAttributeValues: {
             ":name": chef.name,
@@ -58,6 +69,9 @@ const updateChef = async (
             ":imageUrl": chef.imageUrl,
             ":backgroundImageUrl": chef.backgroundImageUrl,
             ":updatedAt": chef.updatedAt,
+            ":createdAt": chef.createdAt,
+            ":chefId": chef.chefId,
+            ":accolades": chef.accolades,
         },
         ReturnValues: "ALL_NEW",
         ReturnConsumedCapacity: "TOTAL",
@@ -65,12 +79,56 @@ const updateChef = async (
 
     console.log(`params: ${JSON.stringify(params, null, 2)}`);
 
+    const additionalParams = {
+        TableName: process.env.POSTS_TABLE,
+        Key: {
+            PK: `CHEFS`,
+            SK: `CHEF#${name}`,
+        },
+        UpdateExpression:
+            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #backgroundImageUrl = :backgroundImageUrl, #updatedAt = :updatedAt, #tags = :tags, #createdAt = :createdAt, #accolades = :accolades, #chefId = :chefId",
+        ExpressionAttributeNames: {
+            "#name": "name",
+            "#bio": "bio",
+            "#location": "location",
+            "#tags": "tags",
+            "#email": "email",
+            "#imageUrl": "imageUrl",
+            "#backgroundImageUrl": "backgroundImageUrl",
+            "#updatedAt": "updatedAt",
+            "#createdAt": "createdAt",
+            "#accolades": "accolades",
+            "#chefId": "chefId",
+        },
+        ExpressionAttributeValues: {
+            ":name": chef.name,
+            ":bio": chef.bio,
+            ":location": chef.location,
+            ":tags": chef.tags,
+            ":email": chef.email,
+            ":imageUrl": chef.imageUrl,
+            ":backgroundImageUrl": chef.backgroundImageUrl,
+            ":updatedAt": chef.updatedAt,
+            ":createdAt": chef.createdAt,
+            ":chefId": chef.chefId,
+            ":accolades": chef.accolades,
+        },
+        ReturnValues: "ALL_NEW",
+        ReturnConsumedCapacity: "TOTAL",
+    };
+
+    console.log(`additionalParams: ${JSON.stringify(params, null, 2)}`);
+
     try {
-        const updatedQuestion = await docClient.update(params).promise();
+        const updatedChef = await docClient.update(params).promise();
 
-        console.log(`updatedQuestion: ${JSON.stringify(updatedQuestion, null, 2)}`);
+        console.log(`updatedChef: ${JSON.stringify(updatedChef, null, 2)}`);
 
-        return updatedQuestion.Attributes;
+        if(updatedChef) {
+            await docClient.update(additionalParams).promise();
+        }
+        return updatedChef.Attributes;
+
     } catch (err) {
         console.log(`DynamoDB Error: ${JSON.stringify(err, null, 2)}`);
 

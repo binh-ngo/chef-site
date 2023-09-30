@@ -118,7 +118,7 @@ function handlePostEvent(event: PostAppSyncEvent) {
         return getAllPostsFromAllChefs();
       case "createPost":
         return createPost(event.arguments.postInput!);
-      case "updateChef":
+      case "updatePost":
         return updatePost(
           event.arguments.postAuthor!,
           event.arguments.postId!,

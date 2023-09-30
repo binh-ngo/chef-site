@@ -18,7 +18,7 @@ const promises = postInput.tags!.map(async (tag) => {
     const tagId = ulid();
     
     const putRequestParams = {
-      TableName: process.env.POSTS_TABLE,
+      TableName: process.env.CHEFS_TABLE,
       Item: {
         PK: `TAGS`,
         SK: `TAG#${tag}`,
@@ -31,7 +31,7 @@ const promises = postInput.tags!.map(async (tag) => {
 
     try {
       const tagExists = await docClient.query({
-          TableName: process.env.POSTS_TABLE,
+          TableName: process.env.CHEFS_TABLE,
           KeyConditionExpression: "#PK = :PK AND begins_with(#SK, :sk_prefix)",
           ExpressionAttributeNames: {
             "#PK": "PK",
@@ -62,7 +62,7 @@ const promises = postInput.tags!.map(async (tag) => {
             PutRequest: {
                 Item: {
                     PK: `TAG#${tag}`,
-                    SK: `QUESTION#${postInput.postId}`,
+                    SK: `POST#${postInput.postId}`,
                     type: 'post',
                     postId: postInput.postId,
                     postAuthor: postInput.postAuthor,
@@ -79,7 +79,7 @@ const promises = postInput.tags!.map(async (tag) => {
     
     const batchWriteParams = {
         RequestItems: {
-            "StackOverflowClonePostApiStack861B9897-StackOverflowPostsTable118A6065-1M2XMVIH3GMXR": tagPutRequests,
+            "ChefSiteChefSiteBackendStackC0C43B6F-ChefSiteTable50DF745C-1I4475MN7CYKZ": tagPutRequests,
         },
         ReturnConsumedCapacity: "TOTAL",
     };

@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
-// import createTag from "../tags/createTag";
 import { Chef, ChefInput } from "../types";
 require("dotenv").config({ path: ".env" });
 

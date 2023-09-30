@@ -10,12 +10,14 @@ const getAllPosts = async (postAuthor: string) => {
 
   const params: ddbQueryPostsParams = {
     TableName: process.env.POSTS_TABLE || "",
-    KeyConditionExpression: "#PK = :post_partition",
+    KeyConditionExpression: "#PK = :post_partition AND begins_with(#SK, :sk_prefix)",
     ExpressionAttributeNames: {
       "#PK": "PK",
+      "#SK": "SK"
     },
     ExpressionAttributeValues: {
       ":post_partition": `CHEF#${postAuthor}`,
+      ":sk_prefix": "POST#"
     },
     ReturnConsumedCapacity: "TOTAL",
     ScanIndexForward: false,

@@ -3,7 +3,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 const deletePost = async (postAuthor: string, postId: string) => {
   console.log(
-    `deletePost invocation event: ${JSON.stringify(`Author: ${postAuthor}, QuesId: ${postId}`, null, 2)}`
+    `deletePost invocation event: ${JSON.stringify(`Chef: ${postAuthor}, postId: ${postId}`, null, 2)}`
   );
 
   try {
@@ -45,7 +45,7 @@ const deletePost = async (postAuthor: string, postId: string) => {
 
     const batchWriteParams = {
       RequestItems: {
-        "StackOverflowClonePostApiStack861B9897-StackOverflowPostsTable118A6065-1M2XMVIH3GMXR": [
+        "ChefSiteChefSiteBackendStackC0C43B6F-ChefSiteTable50DF745C-1I4475MN7CYKZ": [
           {
             DeleteRequest: {
               Key: {
