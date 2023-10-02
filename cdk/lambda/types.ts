@@ -58,6 +58,7 @@ export type PostAppSyncEvent = {
         tagName?: string;
         count?: number;
         tagId?: string;
+        postId?: string;
     };
   };
 

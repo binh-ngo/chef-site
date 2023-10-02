@@ -9,7 +9,11 @@ import getAllPosts from "./posts/getAllPosts";
 import getAllPostsFromAllChefs from "./posts/getAllPostsFromAllChefs";
 import getPostById from "./posts/getPostById";
 import updatePost from "./posts/updatePost";
-import { ChefAppSyncEvent, ChefInput, PostAppSyncEvent } from "./types";
+import createTag from "./tags/createTag";
+import deleteTag from "./tags/deleteTag";
+import getAllTags from "./tags/getAllTags";
+import getTagById from "./tags/gettagById";
+import { ChefAppSyncEvent, PostAppSyncEvent, TagAppSyncEvent } from "./types";
 
 export async function handler(event: any): Promise<any> {
     console.log(`EVENT --- ${JSON.stringify(event)}`);
@@ -23,9 +27,9 @@ export async function handler(event: any): Promise<any> {
     //   else if (eventType === "Comment") {
     //     return handleCommentEvent(event);
     //   } 
-    //     else if(eventType === "Tag") {
-    //     return handleTagEvent(event);
-    //   } 
+        else if(eventType === "Tag") {
+        return handleTagEvent(event);
+      } 
     //   else if (eventType === "Review") {
     //     return handleReviewEvent(event)
     //   } 
@@ -126,6 +130,19 @@ function handlePostEvent(event: PostAppSyncEvent) {
         );
       case "deletePost":
         return deletePost(event.arguments.postAuthor!, event.arguments.postId!);
+      default:
+        throw new Error(`Unknown field name: ${event.info.fieldName}`);
+    }
+  }
+
+  function handleTagEvent(event: TagAppSyncEvent) {
+    switch (event.info.fieldName) {
+      case "getTagById":
+        return getTagById(event.arguments.tagName!);
+      case "getAllTags":
+        return getAllTags();
+      case "deleteTag":
+        return deleteTag(event.arguments.tagName!, event.arguments.postId!);
       default:
         throw new Error(`Unknown field name: ${event.info.fieldName}`);
     }
