@@ -1,19 +1,24 @@
 // Lambda function code
 const AWS = require("aws-sdk");
-const s3 = new AWS.S3();
 const docClient = new AWS.DynamoDB.DocumentClient();
 import { ulid } from "ulid";
 import { Chef, ChefInput } from "../types";
 require("dotenv").config({ path: ".env" });
 
+const s3 = new AWS.S3({
+    region: 'us-east-1',
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    signatureVersion: 'v4'
+});
 const createChef = async (chefInput: ChefInput) => {
     const chefId = ulid();
     const formattedChef = chefInput.name ? chefInput.name.trim().replace(/\s+/g, "") : "";
 
     try {
         // Upload the image files to S3
-        const imageUrl = await uploadImageToS3(chefId, "profile-image.jpg", chefInput.imageUrl);
-        const backgroundImageUrl = await uploadImageToS3(chefId, "background-image.jpg", chefInput.backgroundImageUrl);
+        // const imageUrl = await uploadImageToS3(chefId, "profile-image.jpg", chefInput.imageUrl);
+        const imageUrl = await generateUploadURL();
 
         // Create the Chef object with S3 URLs
         const chef: Chef = {
@@ -26,7 +31,6 @@ const createChef = async (chefInput: ChefInput) => {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             imageUrl,
-            backgroundImageUrl,
             followers: 0,
             accolades: []
         };
@@ -69,19 +73,29 @@ const createChef = async (chefInput: ChefInput) => {
     }
 };
 
-const uploadImageToS3 = async (chefId: string, imageName: string, fileData: any) => {
-    const buffer = Buffer.from(fileData, 'base64'); // Convert the string to a buffer
+// const uploadImageToS3 = async (chefId: string, imageName: string, fileData: any) => {
+//     const buffer = Buffer.from(fileData, 'base64'); // Convert the string to a buffer
 
-    const params = {
-        Bucket: "chef-site-images",
-        Key: `${chefId}-${imageName}`,
-        Body: buffer,
-        ContentType: 'image/jpeg', 
-        ACL: 'public-read'
-    };
+//     const params = {
+//         Bucket: "chef-site-images",
+//         Key: `${chefId}-${imageName}`,
+//         Body: buffer,
+//         ContentType: 'image/jpeg', 
+//         ACL: 'public-read'
+//     };
 
-    const result = await s3.upload(params).promise();
-    return result.Location; // Return the S3 URL
-};
+//     const result = await s3.upload(params).promise();
+//     return result.Location; // Return the S3 URL
+// };
+export async function generateUploadURL() {
 
+    const params = ({
+      Bucket: 'chef-site-images',
+      Key: `${ulid()}.jpg`,
+      Expires: 60
+    })
+    
+    const uploadURL = await s3.getSignedUrlPromise('putObject', params);
+    return uploadURL;
+  }
 export default createChef;

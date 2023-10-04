@@ -27,7 +27,6 @@ const updateChef = async (
             tags: chefInput.tags,
             email: chefInput.email,
             imageUrl: chefInput.imageUrl,
-            backgroundImageUrl: chefInput.backgroundImageUrl,
             updatedAt: new Date().toISOString(),
             createdAt: retrievedChef.createdAt,
             followers: retrievedChef.followers,
@@ -46,7 +45,7 @@ const updateChef = async (
             SK: `CHEF#${chefId}`,
         },
         UpdateExpression:
-            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #backgroundImageUrl = :backgroundImageUrl, #updatedAt = :updatedAt, #tags = :tags, #createdAt = :createdAt, #accolades = :accolades, #chefId = :chefId",
+            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #updatedAt = :updatedAt, #tags = :tags, #createdAt = :createdAt, #accolades = :accolades, #chefId = :chefId",
         ExpressionAttributeNames: {
             "#name": "name",
             "#bio": "bio",
@@ -67,7 +66,6 @@ const updateChef = async (
             ":tags": chef.tags,
             ":email": chef.email,
             ":imageUrl": chef.imageUrl,
-            ":backgroundImageUrl": chef.backgroundImageUrl,
             ":updatedAt": chef.updatedAt,
             ":createdAt": chef.createdAt,
             ":chefId": chef.chefId,
@@ -86,7 +84,7 @@ const updateChef = async (
             SK: `CHEF#${name}`,
         },
         UpdateExpression:
-            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #backgroundImageUrl = :backgroundImageUrl, #updatedAt = :updatedAt, #tags = :tags, #createdAt = :createdAt, #accolades = :accolades, #chefId = :chefId",
+            "set #name = :name, #bio = :bio,  #location = :location,  #email = :email,  #imageUrl = :imageUrl, #updatedAt = :updatedAt, #tags = :tags, #createdAt = :createdAt, #accolades = :accolades, #chefId = :chefId",
         ExpressionAttributeNames: {
             "#name": "name",
             "#bio": "bio",
@@ -94,7 +92,6 @@ const updateChef = async (
             "#tags": "tags",
             "#email": "email",
             "#imageUrl": "imageUrl",
-            "#backgroundImageUrl": "backgroundImageUrl",
             "#updatedAt": "updatedAt",
             "#createdAt": "createdAt",
             "#accolades": "accolades",
@@ -107,7 +104,6 @@ const updateChef = async (
             ":tags": chef.tags,
             ":email": chef.email,
             ":imageUrl": chef.imageUrl,
-            ":backgroundImageUrl": chef.backgroundImageUrl,
             ":updatedAt": chef.updatedAt,
             ":createdAt": chef.createdAt,
             ":chefId": chef.chefId,

@@ -85,15 +85,6 @@ function handleChefEvent(event: ChefAppSyncEvent) {
         // console.log(`QUESTION ---${JSON.stringify(event)}`);
         return getAllChefs();
       case "createChef":
-        // const chefInput: ChefInput = {
-        //   name: event.arguments.name!,
-        //   bio: event.arguments.chefInput!.bio,
-        //   location: event.arguments.chefInput!.location,
-        //   tags: event.arguments.chefInput!.tags,
-        //   email: event.arguments.chefInput!.email,
-        //   imageUrl: event.arguments.chefInput!.imageUrl,
-        //   backgroundImageUrl: event.arguments.chefInput!.backgroundImageUrl,
-        // };
         return createChef(event.arguments.chefInput!);
       case "updateChef":
         return updateChef(

@@ -66,13 +66,12 @@ input ChefInput {
     tags: [String]
     email: String
     imageUrl: String
-    backgroundImageUrl: String
 }
 
 input PostInput {
     postAuthor: String
     body: String
-    imageUrl: String
+    imageUrl: String    
     tags: [String]
 }
 
@@ -98,8 +97,7 @@ type Chef @aws_api_key @aws_cognito_user_pools {
     email: String!
     createdAt: String!
     updatedAt: String!
-    imageUrl: String!
-    backgroundImageUrl: String!
+    imageUrl: String
     followers: Int!
     accolades: [String]
 }
@@ -108,7 +106,7 @@ type Post @aws_api_key @aws_cognito_user_pools {
     postId: ID!
     postAuthor: String!
     body: String!
-    imageUrl: String!
+    imageUrl: String
     likes: Int!
     tags: [String]
     createdAt: String!

@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { ddbCreateChef } from '../graphql/chefs';
+import { ddbCreateChef, ddbGetChefById } from '../graphql/chefs';
 import { Auth } from 'aws-amplify'
 
 interface FormData {
@@ -9,7 +9,6 @@ interface FormData {
     location: string;
     tags: string;
     imageUrl: File | null;
-    backgroundImageUrl: File | null;
 }
 
 function EditChefForm() {
@@ -21,7 +20,6 @@ function EditChefForm() {
         location: '',
         tags: '',
         imageUrl: null,
-        backgroundImageUrl: null,
     });
 
     useEffect(() => {
@@ -53,15 +51,14 @@ function EditChefForm() {
         const file = e.target.files ? e.target.files[0] : null;
         console.log(fieldName)
         console.log(file!.name)
-        console.log(`PROFILE ${formData.imageUrl}`)
-        console.log(`BACKGROUND ${formData.backgroundImageUrl}`)
         if (file) {
             setFormData({ ...formData, [fieldName]: file });
+            console.log(`PROFILE ${formData.imageUrl}`)
         } else {
             setFormData({ ...formData, [fieldName]: null });
         }
     };
-    
+
     function stringofTags(inputString: string): string[] {
         const cleanedString = inputString.replace(/,/g, ' '); // Replace commas with spaces
         const tagsArray = cleanedString.split(/\s+/); // Split by spaces
@@ -85,7 +82,6 @@ function EditChefForm() {
                 tags: formData.tags.trim() ? stringofTags(formData.tags) : [],
                 email: formData.email,
                 imageUrl: formData.imageUrl || undefined,
-                backgroundImageUrl: formData.backgroundImageUrl || undefined,
             }
 
             let createdChef = null;
@@ -98,6 +94,16 @@ function EditChefForm() {
                 console.error('Response is not a GraphQL result:', response);
             } if (createdChef) {
                 console.log("Chef successfully created")
+                const getChef = await ddbGetChefById(createdChef.name, createdChef.chefId);
+                const uploadUrl = getChef.imageUrl;
+                console.log(`S3 URL ~~~~~~~~${uploadUrl}`);
+                await fetch(uploadUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    body: formData.imageUrl
+                })
             } else {
                 console.log("onSave called but title or children are empty");
             }
@@ -160,40 +166,22 @@ function EditChefForm() {
                     />
                 </div>
                 <div className="mb-4">
-    <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-semibold mb-2">
-        Profile Picture:
-    </label>
-    <input
-        type="file"
-        accept="image/*"
-        name="imageUrl"
-        onChange={handleImageChange}
-        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-    />
-    {formData.imageUrl !== null ? (
-        <p>Selected Image: {(formData.imageUrl as unknown as File).name}</p>
-    ) : (
-        <p>No Image Selected</p>
-    )}
-</div>
-<div className="mb-4">
-    <label htmlFor="backgroundImageUrl" className="block text-gray-700 text-sm font-semibold mb-2">
-        Background Image:
-    </label>
-    <input
-        type="file"
-        accept="image/*"
-        name="backgroundImageUrl"
-        onChange={handleImageChange}
-        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-    />
-    {formData.backgroundImageUrl !== null ? (
-        <p>Selected Image: {(formData.backgroundImageUrl as unknown as File).name}</p>
-    ) : (
-        <p>No Image Selected</p>
-    )}
-</div>
-
+                    <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-semibold mb-2">
+                        Profile Picture:
+                    </label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        name="imageUrl"
+                        onChange={handleImageChange}
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                    />
+                    {formData.imageUrl !== null ? (
+                        <p>Selected Image: {(formData.imageUrl as unknown as File).name}</p>
+                    ) : (
+                        <p>No Image Selected</p>
+                    )}
+                </div>
                 <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg"
                 >Submit</button>
             </form>
