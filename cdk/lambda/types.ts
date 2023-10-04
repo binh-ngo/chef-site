@@ -62,6 +62,17 @@ export type PostAppSyncEvent = {
     };
   };
 
+  export type ImageAppsyncEvent = {
+    info: {
+      fieldName: string;
+    };
+    arguments: {
+      name: string;
+      imageUrl: any;
+      imageUsage: string;
+    }
+  }
+
   export type ReviewAppSyncEvent = {
     info: {
       fieldName: string;

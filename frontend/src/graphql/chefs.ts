@@ -3,12 +3,12 @@ import { API } from "aws-amplify";
 export type SaveChefProps = {
     name: string;
     bio: string;
+    email: string;
     location: string;
     tags: string[];
-    email: string;
-    imageUrl?: string;
-    backgroundImageUrl?: string;
-    chefId: string;
+    imageUrl?: File;
+    backgroundImageUrl?: File;
+    chefId?: string;
 }
 // ==============
 // CREATE CHEF
@@ -37,10 +37,10 @@ export const ddbCreateChef = async (chefInput: SaveChefProps) => {
         variables: {
           chefInput: {
             name: chefInput.name,
+            email: chefInput.email,
             bio: chefInput.bio,
             location: chefInput.location,
             tags: chefInput.tags,
-            email: chefInput.email,
             imageUrl: chefInput.imageUrl,
             backgroundImageUrl: chefInput.backgroundImageUrl,
           },

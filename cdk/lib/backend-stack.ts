@@ -6,7 +6,7 @@ import {
     StackProps,
   } from "aws-cdk-lib";
   import { IUserPool } from "aws-cdk-lib/aws-cognito";
-  import { AttributeType, BillingMode, ProjectionType, Table } from "aws-cdk-lib/aws-dynamodb";
+  import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
   import {
     AuthorizationType,
     FieldLogLevel,
@@ -50,6 +50,7 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
         code: Code.fromAsset("lambda"),
         memorySize: 512,
         environment: {
+          // CHEFS Table
           POSTS_TABLE: chefSiteTable.tableName,
         },
       });
