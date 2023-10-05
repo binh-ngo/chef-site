@@ -29,25 +29,48 @@ export const Login = (props:any) => {
   };
 
   return (
-    <div className='flex flex-row w-4/12'>
-      {!loggedInUser && (
-        <form onSubmit={onSubmit} className='flex flex-row'>
-          <label>
-            Username:
-            <input className="border-b-2 mx-3" type="text" name="username" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </label>
-          <label>
-            Password:
-            <input className="border-b-2 mx-3" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </label>
-          {errorMessage && <p style={{ marginTop: ".5%" }}>{errorMessage}</p>}
-          <div className="text-sm w-5/12 xl:w-2/12 mr-4 flex flex-row">
-            {!loggedInUser && <button className="text-blue-800 bg-sky-100 px-6 rounded-lg mr-1"> Login </button>}
-          </div>
-        </form>
-      )}
+<div className="flex flex-row w-full justify-end">
+  {!loggedInUser && (
+    <form onSubmit={onSubmit} className="flex flex-row">
+      <div className="mb-4">
+        <label className="text-white font-semibold">Username:</label>
+        <input
+          className="mt-2 border-b-2 bg-transparent border-white text-white px-2 py-1 rounded-md focus:outline-none focus:border-blue-500"
+          type="text"
+          name="username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="text-white font-semibold">Password:</label>
+        <input
+          className="mt-2 border-b-2 bg-transparent border-white text-white px-2 py-1 rounded-md focus:outline-none focus:border-blue-500"
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+      <div className="flex justify-center">
+        {!loggedInUser && (
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-2 rounded-md focus:outline-none">
+            Login
+          </button>
+        )}
+      </div>
+    </form>
+  )}
 
-      {loggedInUser && <button onClick={() => signOut(() => navigate("/"))} className="text-white font-bold bg-orange-500 px-4 py-4 rounded-bl-lg right-0 top-0 absolute"> Log Out</button>}
-    </div>
+  {loggedInUser && (
+    <button
+      onClick={() => signOut(() => navigate("/"))}
+      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none"
+    >
+      Log Out
+    </button>
+  )}
+</div>
   );
   }

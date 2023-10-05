@@ -5,6 +5,13 @@ import { Post, PostInput } from "../types";
 import createTag from "../tags/createTag";
 require("dotenv").config({ path: ".env" });
 
+const s3 = new AWS.S3({
+    region: 'us-east-1',
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    signatureVersion: 'v4'
+});
+
 const createPost = async (postInput: PostInput) => {
     console.log(
         `createPost invocation event: ${JSON.stringify(postInput, null, 2)}`
@@ -12,61 +19,64 @@ const createPost = async (postInput: PostInput) => {
 
     const postId = ulid();
 
-     const formattedAuthor = postInput.postAuthor ? postInput.postAuthor.trim().replace(/\s+/g, "") : "";
-
-    const post: Post = {
-        postId,
-        postAuthor: formattedAuthor,
-        body: postInput.body,
-        tags: postInput.tags,
-        likes: 0,
-        imageUrl: postInput.imageUrl,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    };
-
-    const params = {
-        RequestItems: {
-            "ChefSiteChefSiteBackendStackC0C43B6F-ChefSiteTable50DF745C-1I4475MN7CYKZ": [
-                {
-                    PutRequest: {
-                        Item: {
-                            PK: `POSTS`,
-                            SK: `POST#${postId}`,
-                            type: 'post',
-                            ...post,
-                        },
-                    },
-                },
-                {
-                    PutRequest: {
-                        Item: {
-                            PK: `POST#${postId}`,
-                            SK: `POST#${postId}`,
-                            type: 'post',
-                            ...post,
-                        },
-                    },
-                },
-                {
-                    PutRequest: {
-                        Item: {
-                            PK: `CHEF#${formattedAuthor}`,
-                            SK: `POST#${postId}`,
-                            type: 'post',
-                            ...post,
-                        },
-                    },
-                },
-            ],
-        },
-        ReturnConsumedCapacity: "TOTAL",
-    };
+    const formattedAuthor = postInput.postAuthor ? postInput.postAuthor.trim().replace(/\s+/g, "") : "";
 
     try {
+
+        const imageUrl = await generateUploadURL();
+
+        const post: Post = {
+            postId,
+            postAuthor: formattedAuthor,
+            body: postInput.body,
+            tags: postInput.tags,
+            likes: 0,
+            imageUrl,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        const params = {
+            RequestItems: {
+                "ChefSiteChefSiteBackendStackC0C43B6F-ChefSiteTable50DF745C-1I4475MN7CYKZ": [
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `POSTS`,
+                                SK: `POST#${postId}`,
+                                type: 'post',
+                                ...post,
+                            },
+                        },
+                    },
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `POST#${postId}`,
+                                SK: `POST#${postId}`,
+                                type: 'post',
+                                ...post,
+                            },
+                        },
+                    },
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `CHEF#${formattedAuthor}`,
+                                SK: `POST#${postId}`,
+                                type: 'post',
+                                ...post,
+                            },
+                        },
+                    },
+                ],
+            },
+            ReturnConsumedCapacity: "TOTAL",
+        };
+
         const data = await docClient.batchWrite(params).promise();
         console.log(`Created post: ${JSON.stringify(post, null, 2)}`);
-        if(data) {
+        if (data) {
             await createTag(post);
         }
         return post;
@@ -76,4 +86,15 @@ const createPost = async (postInput: PostInput) => {
     }
 };
 
+export async function generateUploadURL() {
+
+    const params = ({
+        Bucket: 'chef-site-images',
+        Key: `${ulid()}.jpg`,
+        Expires: 60
+    })
+
+    const uploadURL = await s3.getSignedUrlPromise('putObject', params);
+    return uploadURL;
+}
 export default createPost;
