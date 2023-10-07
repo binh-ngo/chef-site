@@ -16,7 +16,7 @@ const createChef = async (chefInput: ChefInput) => {
     const formattedChef = chefInput.name ? chefInput.name.trim().replace(/\s+/g, "") : "";
 
     try {
-        const imageUrl = await generateUploadURL();
+        const imageUrl = await generateUploadURL(formattedChef, chefId);
 
         // Create the Chef object with S3 URLs
         const chef: Chef = {
@@ -71,11 +71,11 @@ const createChef = async (chefInput: ChefInput) => {
     }
 };
 
-export async function generateUploadURL() {
+export async function generateUploadURL(name:string, chefId:string) {
 
     const params = ({
-      Bucket: 'chef-site-images',
-      Key: `${ulid()}.jpg`,
+      Bucket: process.env.BUCKET_NAME,
+      Key: `images/chef/${name}-${chefId}.jpg`,
     })
     
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);

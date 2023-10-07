@@ -97,7 +97,7 @@ export type Chef = {
     email: string;
     createdAt: string;
     updatedAt: string;
-    imageUrl: File;
+    imageUrl: string;
     followers: number;
     accolades: string[];
 }
@@ -108,7 +108,7 @@ export type ChefInput = {
     location: string;
     tags: string[];
     email: string;
-    imageUrl: File;
+    imageUrl: string;
     updatedAt?: string;
 }
 

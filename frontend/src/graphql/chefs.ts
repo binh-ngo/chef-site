@@ -2,8 +2,8 @@ import { API } from "aws-amplify";
 
 export type SaveChefProps = {
     name: string;
-    bio: string;
     email: string;
+    bio: string;
     location: string;
     tags: string[];
     imageUrl?: File;
@@ -151,7 +151,6 @@ const updateChefQuery = `
           bio: chefInput.bio,
           location: chefInput.location,
           tags: chefInput.tags,
-          email: chefInput.email,
           imageUrl: chefInput.imageUrl,
         },
       },

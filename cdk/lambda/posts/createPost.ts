@@ -18,12 +18,11 @@ const createPost = async (postInput: PostInput) => {
     );
 
     const postId = ulid();
-
     const formattedAuthor = postInput.postAuthor ? postInput.postAuthor.trim().replace(/\s+/g, "") : "";
 
     try {
 
-        const imageUrl = await generateUploadURL();
+        const imageUrl = await generateUploadURL(formattedAuthor, postId);
 
         const post: Post = {
             postId,
@@ -86,15 +85,14 @@ const createPost = async (postInput: PostInput) => {
     }
 };
 
-export async function generateUploadURL() {
+export async function generateUploadURL(postAuthor:string, postId:string) {
 
     const params = ({
-        Bucket: 'chef-site-images',
-        Key: `${ulid()}.jpg`,
-        Expires: 60
+      Bucket: process.env.BUCKET_NAME,
+      Key: `images/post/${postAuthor}-${postId}.jpg`,
     })
-
+    
     const uploadURL = await s3.getSignedUrlPromise('putObject', params);
     return uploadURL;
-}
+  }
 export default createPost;

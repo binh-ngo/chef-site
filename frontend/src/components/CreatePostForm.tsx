@@ -1,23 +1,19 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { ddbCreateChef, ddbGetChefById } from '../graphql/chefs';
 import { Auth } from 'aws-amplify'
+import { ddbCreatePost, ddbGetPostById } from '../graphql/posts';
 
 interface FormData {
-    name: string;
-    email: string;
-    bio: string;
-    location: string;
+    postAuthor: string;
+    body: string;
     tags: string;
     imageUrl: File | null;
 }
 
-function EditChefForm() {
+function CreatePostForm() {
 
     const [formData, setFormData] = useState<FormData>({
-        name:'',
-        email: '',
-        bio: '',
-        location: '',
+        postAuthor: '',
+        body: '',
         tags: '',
         imageUrl: null,
     });
@@ -29,7 +25,7 @@ function EditChefForm() {
                 console.log(`Cognito username: ${user.username}`);
                 setFormData((prevData) => ({
                     ...prevData,
-                    name: user.username,
+                    postAuthor: user.username,
                 }));
             } catch (error) {
                 console.error('Error getting Cognito user:', error);
@@ -53,7 +49,7 @@ function EditChefForm() {
         console.log(file!.name)
         if (file) {
             setFormData({ ...formData, [fieldName]: file });
-            console.log(`PROFILE ${formData.imageUrl}`)
+            console.log(`IMAGE ${formData.imageUrl}`)
         } else {
             setFormData({ ...formData, [fieldName]: null });
         }
@@ -72,30 +68,28 @@ function EditChefForm() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (formData.name) {
+        if (formData.body && formData.postAuthor.trim() !== '') {
             console.log('Form data submitted:', formData);
 
-            const chef = {
-                name: formData.name,
-                email: formData.email,
-                bio: formData.bio,
-                location: formData.location,
+            const post = {
+                postAuthor: formData.postAuthor,
+                body: formData.body,
                 tags: formData.tags.trim() ? stringofTags(formData.tags) : [],
                 imageUrl: formData.imageUrl || undefined,
             }
 
-            let createdChef = null;
-            const response = await ddbCreateChef(chef);
+            let createdPost = null;
+            const response = await ddbCreatePost(post);
             if ('data' in response) {
                 // Handle the case when response is a GraphQL result
-                createdChef = response.data.createChef;
-                console.log(`Response from DynamoDB: ${JSON.stringify(createdChef)}`);
+                createdPost = response.data.createPost;
+                console.log(`Response from DynamoDB: ${JSON.stringify(createdPost)}`);
             } else {
                 console.error('Response is not a GraphQL result:', response);
-            } if (createdChef) {
+            } if (createdPost) {
                 console.log("Chef successfully created")
-                const getChef = await ddbGetChefById(createdChef.name, createdChef.chefId);
-                const uploadUrl = getChef.imageUrl;
+                const getPost = await ddbGetPostById(createdPost.postAuthor, createdPost.postId);
+                const uploadUrl = getPost.imageUrl;
                 console.log(`S3 URL ~~~~~~~~${uploadUrl}`);
                 await fetch(uploadUrl, {
                     method: "PUT",
@@ -117,69 +111,9 @@ function EditChefForm() {
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
             <h1 className="text-2xl font-semibold mb-4">Edit Profile</h1>
             <form encType='multipart/form-data' onSubmit={handleSubmit} className="space-y-4">
-                <div className="mb-4">
-                    <label htmlFor='name' className="block text-gray-700 text-sm font-semibold mb-2">
-                        Username:
-                    </label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor='email' className="block text-gray-700 text-sm font-semibold mb-2">
-                        Email:
-                    </label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor='bio' className="block text-gray-700 text-sm font-semibold mb-2">
-                        Bio:
-                    </label>
-                    <input
-                        type="text"
-                        name="bio"
-                        value={formData.bio}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor='location' className="block text-gray-700 text-sm font-semibold mb-2">
-                        Location:
-                    </label>
-                    <input
-                        type="text"
-                        name="location"
-                        value={formData.location}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor='tags' className="block text-gray-700 text-sm font-semibold mb-2">
-                        Tags:
-                    </label>
-                    <input
-                        type="text"
-                        name="tags"
-                        value={formData.tags}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
+            <div className="mb-4">
                     <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-semibold mb-2">
-                        Profile Picture:
+                        Image:
                     </label>
                     <input
                         type="file"
@@ -194,6 +128,30 @@ function EditChefForm() {
                         <p>No Image Selected</p>
                     )}
                 </div>
+                <div className="mb-4">
+                    <label htmlFor='tags' className="block text-gray-700 text-sm font-semibold mb-2">
+                        Tags:
+                    </label>
+                    <input
+                        type="text"
+                        name="tags"
+                        value={formData.tags}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor='body' className="block text-gray-700 text-sm font-semibold mb-2">
+                        Body:
+                    </label>
+                    <input
+                        type="text"
+                        name="body"
+                        value={formData.body}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                    />
+                </div>
                 <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg"
                 >Submit</button>
             </form>
@@ -201,4 +159,4 @@ function EditChefForm() {
     );
 }
 
-export default EditChefForm;
+export default CreatePostForm;

@@ -38,7 +38,7 @@ function CreateAccountForm(props:any) {
         }
         try {
             // Sign up the user with username, email, and password
-            const newUser = await signUp(formData.email, formData.password);
+            const newUser = await signUp(formData.name, formData.email, formData.password);
             console.log("Account created.", newUser);
             // Now, log in the newly created user
             const loggedInNewUser = await signIn(formData.email, formData.password);
@@ -55,7 +55,7 @@ function CreateAccountForm(props:any) {
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="mb-4">
                     <label htmlFor='name' className="block text-gray-700 text-sm font-semibold mb-2">
-                        Name:
+                        Username:
                     </label>
                     <input
                         type="text"

@@ -6,10 +6,10 @@ import { API } from "aws-amplify";
 
 export type SavePostProps = {
     postAuthor: string;
-    postId: string;
+    postId?: string;
     body: string;
-    imageUrl: string;
-    tags: string[];
+    imageUrl?: File;
+    tags?: string[];
   };
 
 const createPostQuery = `
@@ -29,14 +29,14 @@ const createPostQuery = `
 
 export const ddbCreatePost = async (postInput: SavePostProps) => {
 // const contentString = JSON.stringify(value).replace(/"/g, '\\"');
-const bodyString = JSON.stringify(postInput.body);
+// const bodyString = JSON.stringify(postInput.body);
 // console.log(`contentString: ${contentString}`);
 const resp = await API.graphql({
   query: createPostQuery,
   variables: {
     postInput: {
       postAuthor: postInput.postAuthor,
-      body: bodyString,
+      body: postInput.body,
       tags: postInput.tags,
       imageUrl: postInput.imageUrl
     },

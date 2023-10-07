@@ -4,7 +4,7 @@ import { AccountContext } from '../Accounts';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = (props:any) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   // const [successMessage, setSuccessMessage] = useState('')
@@ -19,7 +19,7 @@ export const Login = (props:any) => {
 
     try {
       // Check if the user exists
-      const existingUser = await signIn(email, password);
+      const existingUser = await signIn(username, password);
       console.log("Logged in.", existingUser);
       navigate(from, { replace: true });
     } catch (loginError) {
@@ -29,7 +29,7 @@ export const Login = (props:any) => {
   };
 
   return (
-<div className="flex flex-row w-full justify-end">
+<div className="flex flex-row w-full justify-end bg-black">
   {!loggedInUser && (
     <form onSubmit={onSubmit} className="flex flex-row">
       <div className="mb-4">
@@ -38,8 +38,8 @@ export const Login = (props:any) => {
           className="mt-2 border-b-2 bg-transparent border-white text-white px-2 py-1 rounded-md focus:outline-none focus:border-blue-500"
           type="text"
           name="username"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div className="mb-4">

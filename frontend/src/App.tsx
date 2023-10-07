@@ -12,11 +12,12 @@ import CreateAccountForm from "./components/CreateAccountForm";
 import { LandingPage } from "./pages/LandingPage";
 import { Login } from "./components/Login";
 import { Home } from "./pages/Home";
+import CreatePostForm from "./components/CreatePostForm";
 Amplify.configure(awsconfig);
 
 function App() {
   return (
-    <div className="bg-gray-800">
+    <div>
 
     <Router>
       <Account>
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/edit" element={<EditChefForm />} />
         <Route path="/signup" element={<CreateAccountForm />} />
+        <Route path="/createPost" element={<CreatePostForm />} />
         </Routes>
       </Account>
     </Router>

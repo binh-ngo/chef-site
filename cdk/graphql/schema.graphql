@@ -89,51 +89,51 @@ input ReviewInput {
 }
 
 type Chef @aws_api_key @aws_cognito_user_pools {
-    chefId: ID!
-    name: String!
-    bio: String!
-    location: String!
+    chefId: ID
+    name: String
+    bio: String
+    location: String
     tags: [String]
-    email: String!
-    createdAt: String!
-    updatedAt: String!
+    email: String
+    createdAt: String
+    updatedAt: String
     imageUrl: String
-    followers: Int!
+    followers: Int
     accolades: [String]
 }
 
 type Post @aws_api_key @aws_cognito_user_pools {
-    postId: ID!
-    postAuthor: String!
-    body: String!
+    postId: ID
+    postAuthor: String
+    body: String
     imageUrl: String
-    likes: Int!
+    likes: Int
     tags: [String]
-    createdAt: String!
-    updatedAt: String!   
+    createdAt: String
+    updatedAt: String   
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools {
-    commentId: ID!
-    commAuthor: String;
-    body: String!
-    likes: Int!
-    createdAt: String!
-    updatedAt: String!
+    commentId: ID
+    commAuthor: String
+    body: String
+    likes: Int
+    createdAt: String
+    updatedAt: String
 }
 
 type Tag @aws_api_key @aws_cognito_user_pools {
-    tagId: ID!
-    tagName: String!
-    count: Int!
-    createdAt: String!
+    tagId: ID
+    tagName: String
+    count: Int
+    createdAt: String
 }
 
 type Review @aws_api_key @aws_cognito_user_pools {
-    reviewId: ID!
-    chefId: ID!
-    client: String!
-    rating: Float!
-    createdAt: String!
-    updatedAt: String!
+    reviewId: ID
+    chefId: ID
+    client: String
+    rating: Float
+    createdAt: String
+    updatedAt: String
 }
