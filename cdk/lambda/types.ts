@@ -118,6 +118,7 @@ export type ChefInput = {
 
 export type Post = {
     postId: string;
+    authorId: string;
     postAuthor: string;
     body: string;
     tags: string[];
@@ -129,6 +130,7 @@ export type Post = {
 
 export type PostInput = {
     postAuthor: string;
+    authorId: string;
     body: string;
     imageUrl: string;
     tags: string[];

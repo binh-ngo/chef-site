@@ -3,10 +3,9 @@ function Description() {
   return (
     <div className="text-white bg-gray-800 py-8 text-left flex flex-row">
       <div className=" w-6/12 ml-8">
-      <h3 className="text-2xl font-semibold mb-4">What is Foodie Share?</h3>
+      <h3 className="text-2xl font-semibold mb-4">What is __________?</h3>
       <p className="text-lg">
-        Foodie Share is the ultimate platform for food enthusiasts and photographers to showcase their culinary creations.
-        Whether you're a professional chef or a home cook, share your passion for food with the world.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum dignissimos itaque quae vel nesciunt nobis eligendi voluptates quia blanditiis quibusdam, earum nemo ipsam ipsum in inventore repellendus perspiciatis reiciendis molestias?
       </p>
       </div>
       <ul className="list-none text-lg text-white w-6/12 text-center">

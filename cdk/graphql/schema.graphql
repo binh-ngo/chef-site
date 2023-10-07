@@ -70,6 +70,7 @@ input ChefInput {
 
 input PostInput {
     postAuthor: String
+    authorId: String
     body: String
     imageUrl: String    
     tags: [String]
@@ -105,6 +106,7 @@ type Chef @aws_api_key @aws_cognito_user_pools {
 type Post @aws_api_key @aws_cognito_user_pools {
     postId: ID
     postAuthor: String
+    authorId: String
     body: String
     imageUrl: String
     likes: Int

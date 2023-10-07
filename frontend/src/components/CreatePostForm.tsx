@@ -1,6 +1,8 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { Auth } from 'aws-amplify'
 import { ddbCreatePost, ddbGetPostById } from '../graphql/posts';
+import { useNavigate } from 'react-router-dom';
+import { ddbGetAllChefs } from '../graphql/chefs';
 
 interface FormData {
     postAuthor: string;
@@ -33,6 +35,8 @@ function CreatePostForm() {
         }
         fetchUserData();
     }, []);
+
+    let navigate = useNavigate();
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -70,9 +74,17 @@ function CreatePostForm() {
         e.preventDefault();
         if (formData.body && formData.postAuthor.trim() !== '') {
             console.log('Form data submitted:', formData);
-
+            const getChefId = await ddbGetAllChefs();
+            let authorId = '';
+            for(let i = 0; i < getChefId.length; i++) {
+                if (formData.postAuthor === getChefId[i].name) {
+                    authorId = getChefId[i].chefId;
+                    break;
+                } 
+            }
             const post = {
                 postAuthor: formData.postAuthor,
+                authorId: authorId,
                 body: formData.body,
                 tags: formData.tags.trim() ? stringofTags(formData.tags) : [],
                 imageUrl: formData.imageUrl || undefined,
@@ -98,6 +110,7 @@ function CreatePostForm() {
                     },
                     body: formData.imageUrl
                 })
+                navigate('/home');
             } else {
                 console.log("onSave called but title or children are empty");
             }

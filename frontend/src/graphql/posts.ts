@@ -6,6 +6,7 @@ import { API } from "aws-amplify";
 
 export type SavePostProps = {
     postAuthor: string;
+    authorId?: string;
     postId?: string;
     body: string;
     imageUrl?: File;
@@ -17,6 +18,7 @@ const createPostQuery = `
     createPost(postInput: $postInput) {
       postId
       postAuthor
+      authorId
       body
       tags
       likes
@@ -36,6 +38,7 @@ const resp = await API.graphql({
   variables: {
     postInput: {
       postAuthor: postInput.postAuthor,
+      authorId: postInput.authorId,
       body: postInput.body,
       tags: postInput.tags,
       imageUrl: postInput.imageUrl
@@ -57,6 +60,7 @@ const getPostByIdQuery = `
       getPostById(postAuthor: $postAuthor, postId: $postId) {
         postId
         postAuthor
+        authorId
         body
         tags
         likes
@@ -92,6 +96,7 @@ query getAllPosts($postAuthor: String!) {
   getAllPosts(postAuthor: $postAuthor) {
     postId
     postAuthor
+    authorId
     body
     tags
     likes
@@ -120,6 +125,7 @@ query getAllPostsFromAllChefs {
   getAllPostsFromAllChefs {
     postId
     postAuthor
+    authorId
     body
     tags
     likes
@@ -149,6 +155,7 @@ const updatePostQuery = `
       updatePost(postAuthor: $postAuthor, postId: $postId, postInput: $postInput) {
         postId
         postAuthor
+        authorId
         body
         tags
         likes

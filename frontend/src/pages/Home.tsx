@@ -6,6 +6,7 @@ import { Card } from '../components/Card';
 type ddbGetAllQueryResponse = {
   postId: string;
   postAuthor: string;
+  authorId: string;
   body: string;
   tags: string[];
   likes: number;
@@ -33,7 +34,7 @@ const renderQuestions = () => {
 
   return (
     <>
-    <div className='flex flex-col items-center w-full mt-16 bg-red-100'>
+    <div className='flex flex-col items-center w-full mt-16'>
       {sortedPosts.map((post: ddbGetAllQueryResponse, index) => (
         <Card
           key={index}
@@ -41,6 +42,7 @@ const renderQuestions = () => {
           body={post.body}
           imageUrl={post.imageUrl}
           createdAt={post.createdAt}
+          authorId={post.authorId}
           />
       ))}
     </div>

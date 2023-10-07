@@ -1,9 +1,11 @@
 import moment from 'moment';
-const authorImage = require('../assets/image2.jpg')
+import { useEffect, useState } from 'react';
+import { ddbGetChefById } from '../graphql/chefs';
 type PostProps = {
     // postId: string;
     postAuthor: string;
     body: string;
+    authorId: string;
     // tags: string[];
     // likes: number;
     imageUrl: string;
@@ -13,8 +15,13 @@ type PostProps = {
 
 
 export const Card = (post: PostProps) => {
+  const [profilePicture, setProfilePicture] = useState('');
 
-    const urlWithoutParams: string = post.imageUrl.split('?')[0];
+    // const urlWithoutParams: string = post.imageUrl.split('?')[0];
+
+    const removeParams = (url:string) => {
+      return url.split('?')[0];
+    }
 
     const getTimePassed = (createdAt: string): string => {
         const startTime = moment();
@@ -22,13 +29,25 @@ export const Card = (post: PostProps) => {
         return duration.humanize();
     };
 
+    useEffect(() => {
+      if (post.postAuthor && post.authorId) {
+        const getImageUrl = async () => {
+          const chef = await ddbGetChefById(post.postAuthor, post.authorId);
+          const chefImageUrl = chef?.imageUrl; 
+          setProfilePicture(chefImageUrl || '');
+        };
+        
+        getImageUrl();
+      }
+    }, [post.postAuthor, post.authorId]);
+
   return (
-    <div className="bg-white border border-gray-300 rounded shadow-md w-6/12">
+    <div className="bg-white border border-gray-300 rounded shadow-lg w-6/12 my-5">
       {/* Card Header */}
       <div className="flex items-center p-3 border-b border-gray-300">
         <img
         // change this to display the image of the post author
-          src={authorImage}
+          src={removeParams(profilePicture)}
           alt="User Profile"
           className="w-10 h-10 rounded-full mr-3"
         />
@@ -38,7 +57,7 @@ export const Card = (post: PostProps) => {
       {/* Card Body */}
       <div className="p-0 ">
         <img
-          src={urlWithoutParams}
+          src={removeParams(post.imageUrl)}
           alt="Post"
           className="w-full h-[60rem] object-cover"
         />
