@@ -1,11 +1,9 @@
 import Description from "../components/Description"
-import Header from "../components/Header"
-import Hero from "../components/Hero"
+import Hero from "../components/PictureComponent"
 
 export const LandingPage = () => {
   return (
     <div>
-      <Header />
       <Hero />
       <Description />
     </div>
