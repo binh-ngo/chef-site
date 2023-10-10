@@ -18,7 +18,6 @@ Amplify.configure(awsconfig);
 function App() {
   return (
     <div>
-
     <Router>
       <Account>
         <Routes>

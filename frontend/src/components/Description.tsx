@@ -1,7 +1,7 @@
 
 function Description() {
   return (
-    <div className="text-white bg-gray-800 py-8 text-left flex flex-row">
+    <div className="text-black py-8 text-left flex flex-row">
       <div className=" w-6/12 ml-8">
       <h3 className="text-2xl font-semibold mb-4">What is __________?</h3>
       <p className="text-lg">
