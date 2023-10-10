@@ -21,6 +21,10 @@
     "typescript": "~5.2.2"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.425.0",
+    "@aws-sdk/credential-providers": "^3.425.0",
+    "@aws-sdk/util-format-url": "^3.425.0",
+    "aws-amplify": "^5.3.11",
     "aws-cdk-lib": "2.96.2",
     "aws-sdk": "^2.1454.0",
     "cdk-spa-deploy": "^2.0.0-alpha.1",

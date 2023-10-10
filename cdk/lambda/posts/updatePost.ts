@@ -22,6 +22,7 @@ const updatePost = async (
         const post: Post = {
             postId,
             postAuthor,
+            authorId: postInput.authorId,
             body: postInput.body,
             tags: postInput.tags,
             imageUrl: postInput.imageUrl,

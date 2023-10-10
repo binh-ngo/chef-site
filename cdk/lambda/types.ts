@@ -62,6 +62,17 @@ export type PostAppSyncEvent = {
     };
   };
 
+  export type ImageAppsyncEvent = {
+    info: {
+      fieldName: string;
+    };
+    arguments: {
+      name: string;
+      imageUrl: any;
+      imageUsage: string;
+    }
+  }
+
   export type ReviewAppSyncEvent = {
     info: {
       fieldName: string;
@@ -87,7 +98,6 @@ export type Chef = {
     createdAt: string;
     updatedAt: string;
     imageUrl: string;
-    backgroundImageUrl: string;
     followers: number;
     accolades: string[];
 }
@@ -99,7 +109,6 @@ export type ChefInput = {
     tags: string[];
     email: string;
     imageUrl: string;
-    backgroundImageUrl: string;
     updatedAt?: string;
 }
 
@@ -109,6 +118,7 @@ export type ChefInput = {
 
 export type Post = {
     postId: string;
+    authorId: string;
     postAuthor: string;
     body: string;
     tags: string[];
@@ -120,6 +130,7 @@ export type Post = {
 
 export type PostInput = {
     postAuthor: string;
+    authorId: string;
     body: string;
     imageUrl: string;
     tags: string[];

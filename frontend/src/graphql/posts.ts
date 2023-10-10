@@ -6,10 +6,11 @@ import { API } from "aws-amplify";
 
 export type SavePostProps = {
     postAuthor: string;
-    postId: string;
+    authorId?: string;
+    postId?: string;
     body: string;
-    imageUrl: string;
-    tags: string[];
+    imageUrl?: File;
+    tags?: string[];
   };
 
 const createPostQuery = `
@@ -17,6 +18,7 @@ const createPostQuery = `
     createPost(postInput: $postInput) {
       postId
       postAuthor
+      authorId
       body
       tags
       likes
@@ -29,14 +31,15 @@ const createPostQuery = `
 
 export const ddbCreatePost = async (postInput: SavePostProps) => {
 // const contentString = JSON.stringify(value).replace(/"/g, '\\"');
-const bodyString = JSON.stringify(postInput.body);
+// const bodyString = JSON.stringify(postInput.body);
 // console.log(`contentString: ${contentString}`);
 const resp = await API.graphql({
   query: createPostQuery,
   variables: {
     postInput: {
       postAuthor: postInput.postAuthor,
-      body: bodyString,
+      authorId: postInput.authorId,
+      body: postInput.body,
       tags: postInput.tags,
       imageUrl: postInput.imageUrl
     },
@@ -57,6 +60,7 @@ const getPostByIdQuery = `
       getPostById(postAuthor: $postAuthor, postId: $postId) {
         postId
         postAuthor
+        authorId
         body
         tags
         likes
@@ -92,6 +96,7 @@ query getAllPosts($postAuthor: String!) {
   getAllPosts(postAuthor: $postAuthor) {
     postId
     postAuthor
+    authorId
     body
     tags
     likes
@@ -120,6 +125,7 @@ query getAllPostsFromAllChefs {
   getAllPostsFromAllChefs {
     postId
     postAuthor
+    authorId
     body
     tags
     likes
@@ -149,6 +155,7 @@ const updatePostQuery = `
       updatePost(postAuthor: $postAuthor, postId: $postId, postInput: $postInput) {
         postId
         postAuthor
+        authorId
         body
         tags
         likes

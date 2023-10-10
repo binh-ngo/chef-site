@@ -2,13 +2,12 @@ import { API } from "aws-amplify";
 
 export type SaveChefProps = {
     name: string;
+    email: string;
     bio: string;
     location: string;
     tags: string[];
-    email: string;
-    imageUrl?: string;
-    backgroundImageUrl?: string;
-    chefId: string;
+    imageUrl?: File;
+    chefId?: string;
 }
 // ==============
 // CREATE CHEF
@@ -25,7 +24,7 @@ mutation createChef($chefInput: ChefInput!) {
       createdAt
       updatedAt
       imageUrl
-      backgroundImageUrl
+      
       followers
       accolades
     }
@@ -37,12 +36,11 @@ export const ddbCreateChef = async (chefInput: SaveChefProps) => {
         variables: {
           chefInput: {
             name: chefInput.name,
+            email: chefInput.email,
             bio: chefInput.bio,
             location: chefInput.location,
             tags: chefInput.tags,
-            email: chefInput.email,
             imageUrl: chefInput.imageUrl,
-            backgroundImageUrl: chefInput.backgroundImageUrl,
           },
         },
         authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -67,7 +65,6 @@ query getChefById($name: String!, $chefId: String!) {
       createdAt
       updatedAt
       imageUrl
-      backgroundImageUrl
       followers
       accolades
     }
@@ -85,9 +82,9 @@ export const ddbGetChefById = async (name: string, chefId: string) => {
     });
     console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
     // @ts-ignore
-    const question = resp.data.getChefById;
+    const chef = resp.data.getChefById;
     // console.log(`post.content: ${post.content}`);
-    return question;
+    return chef;
   };
 
 // ==============
@@ -105,7 +102,7 @@ export const ddbGetChefById = async (name: string, chefId: string) => {
         createdAt
         updatedAt
         imageUrl
-        backgroundImageUrl
+        
         followers
         accolades
       }
@@ -136,7 +133,7 @@ const updateChefQuery = `
         createdAt
         updatedAt
         imageUrl
-        backgroundImageUrl
+        
         followers
         accolades
       }
@@ -154,9 +151,7 @@ const updateChefQuery = `
           bio: chefInput.bio,
           location: chefInput.location,
           tags: chefInput.tags,
-          email: chefInput.email,
           imageUrl: chefInput.imageUrl,
-          backgroundImageUrl: chefInput.backgroundImageUrl,
         },
       },
       authMode: "AMAZON_COGNITO_USER_POOLS",
