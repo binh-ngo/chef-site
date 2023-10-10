@@ -31,21 +31,21 @@ function PictureComponent() {
 
       {/* Smaller Circles for Other Images */}
       <div className="flex mt-4 space-x-2">
-        <div className="border-4 border-white relative w-40 h-40 rounded-full bg-green-500 overflow-hidden -mt-28">
+        <div className="border-4 border-sky-200 relative w-40 h-40 rounded-full overflow-hidden -mt-28">
           <img
             src={beets}
             alt="beets"
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="border-4 border-white relative w-40 h-40 rounded-full bg-red-500 overflow-hidden -mt-10 -ml-10">
+        <div className="border-4 border-sky-200 relative w-40 h-40 rounded-full overflow-hidden -mt-10 -ml-10">
           <img
             src={handroll}
             alt="handroll"
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="border-4 border-white relative w-40 h-40 rounded-full bg-yellow-500 overflow-hidden -mt-28">
+        <div className="border-4 border-sky-200 relative w-40 h-40 rounded-full overflow-hidden -mt-28">
           <img
             src={burger}
             alt="burger"
@@ -54,27 +54,6 @@ function PictureComponent() {
         </div>
       </div>
     </div>
-    // <div className='w-screen'>
-    //   <div
-    //     className="relative flex flex-col justify-center items-center text-white w-full h-full right-0"
-    //   >
-    //     <Link to="/home">
-    //       <img
-    //         onMouseEnter={() => setShowIcon(true)}
-    //         onMouseLeave={() => setShowIcon(false)}
-    //         src={photo}
-    //         alt="hero img"
-    //         className="rounded-full w-fit right-0"
-    //         style={{ width: "500px", height: "550px" }}
-    //       />
-    //       {showIcon && (
-    //         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-    //           <BsBoxArrowInRight className="text-8xl" />
-    //         </div>
-    //       )}
-    //     </Link>
-    //   </div>
-    // </div>
   );
 }
 

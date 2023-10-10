@@ -10,3 +10,11 @@
         animation-delay: 4s;
     }
 }
+  .image-text {
+    background-image: url('./assets/cloud.jpg');
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 8rem; 
+    display: inline-block;
+  }
