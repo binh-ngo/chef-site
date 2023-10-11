@@ -38,9 +38,10 @@ export const Home = () => {
         <div className='flex flex-col items-center w-full mt-16'>
           {sortedPosts.map((post: ddbGetAllQueryResponse, index) => (
             <>
-              <div className='absolute -top-48 left-20'>
+              <div className='absolute -top-80 left-10 3xl:-top-72 3xl:left-32'>
                 <Blur />
               </div>
+              <div>
               <Card
                 key={index}
                 postAuthor={post.postAuthor}
@@ -48,8 +49,9 @@ export const Home = () => {
                 imageUrl={post.imageUrl}
                 createdAt={post.createdAt}
                 authorId={post.authorId}
-              />
-              <div className='absolute -bottom-80 right-32'>
+                />
+                </div>
+              <div className='absolute -bottom-80 3xs:right-30 3xl:right-80'>
                 <Blur />
               </div>
             </>

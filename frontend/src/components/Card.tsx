@@ -42,7 +42,9 @@ export const Card = (post: PostProps) => {
     }, [post.postAuthor, post.authorId]);
 
   return (
-    <div className="bg-white border border-gray-300 rounded shadow-lg w-6/12 my-5">
+    <div className="bg-white border border-gray-300 rounded shadow-lg w-6/12 my-5
+                    3xs:w-[23rem] 
+                    3xl:w-[40rem]">
       {/* Card Header */}
       <div className="flex items-center p-3 border-b border-gray-300">
         <img
@@ -59,7 +61,9 @@ export const Card = (post: PostProps) => {
         <img
           src={removeParams(post.imageUrl)}
           alt="Post"
-          className="w-full h-[60rem] object-cover"
+          className="w-full object-cover 
+                    3xs:h-[30rem]
+                    3xl:h-[50rem]"
         />
       </div>
 
