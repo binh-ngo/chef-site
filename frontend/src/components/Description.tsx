@@ -3,20 +3,20 @@ import { CgWebsite } from "react-icons/cg";
 
 function Description() {
   return (
-    <div className="text-black py-8 text-left flex flex-row">
+    <div className="text-blue-500 py-8 text-left flex flex-row">
       <ul className="list-none w-6/12 text-center flex flex-row">
         <li className="my-3 mx-2">
-          <a href="https://www.binhngo.me" className="text-black text-4xl font-semibold hover:text-blue-500">
+          <a href="https://www.binhngo.me" className="text-4xl font-semibold hover:text-blue-300">
             <CgWebsite />
           </a>
         </li>
         <li className="my-3 mx-2">
-          <a href="https://www.linkedin.com/in/binh-nguyen-ngo/" className="text-black text-4xl font-semibold hover:text-blue-500">
+          <a href="https://www.linkedin.com/in/binh-nguyen-ngo/" className="text-4xl font-semibold hover:text-blue-300">
           <BsLinkedin />
           </a>
         </li>
         <li className="my-3 mx-2"> 
-          <a href="https://github.com/binh-ngo" className="text-black text-4xl font-semibold hover:text-blue-500">
+          <a href="https://github.com/binh-ngo" className="text-4xl font-semibold hover:text-blue-300">
           <BsGithub />
           </a>
         </li>

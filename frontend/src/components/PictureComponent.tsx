@@ -12,7 +12,11 @@ function PictureComponent() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       {/* Large Circle for Profile Picture */}
-      <div className="relative w-80 h-80 rounded-full border-4 border-sky-300 overflow-hidden">
+      <div className="relative rounded-full border-4 border-sky-300 overflow-hidden
+      3xl:w-80 3xl:h-80
+      xs:w-60 xs:h-60 
+      2xs:w-80 2xs:h-80 
+      3xs:w-60 3xs:h-60">
         <Link to="/home">
           <img
             onMouseEnter={() => setShowIcon(true)}
@@ -31,21 +35,33 @@ function PictureComponent() {
 
       {/* Smaller Circles for Other Images */}
       <div className="flex mt-4 space-x-2">
-        <div className="border-4 border-sky-200 relative w-40 h-40 rounded-full overflow-hidden -mt-28">
+        <div className="border-4 border-sky-200 relative rounded-full overflow-hidden -mt-28
+        3xl:w-40 3xl:h-40
+        xs:w-30 xs:h-30
+        2xs:w-40 2xs:h-40 
+        3xs:w-28 3xs:h-28">
           <img
             src={beets}
             alt="beets"
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="border-4 border-sky-200 relative w-40 h-40 rounded-full overflow-hidden -mt-10 -ml-10">
+        <div className="border-4 border-sky-200 relative rounded-full overflow-hidden -mt-10 -ml-10
+        3xl:w-40 3xl:h-40
+        xs:w-30 xs:h-30
+        2xs:w-40 2xs:h-40 
+        3xs:w-28 3xs:h-28 ">
           <img
             src={handroll}
             alt="handroll"
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="border-4 border-sky-200 relative w-40 h-40 rounded-full overflow-hidden -mt-28">
+        <div className="border-4 border-sky-200 relative rounded-full overflow-hidden -mt-28 
+        3xl:w-40 3xl:h-40
+        xs:w-30 xs:h-30
+        2xs:w-40 2xs:h-40 
+        3xs:w-28 3xs:h-28">
           <img
             src={burger}
             alt="burger"
