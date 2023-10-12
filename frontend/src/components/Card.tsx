@@ -43,7 +43,8 @@ export const Card = (post: PostProps) => {
 
   return (
     <div className="bg-white border border-gray-300 rounded shadow-lg w-6/12 my-5
-                    3xs:w-[23rem] 
+                    3xs:w-[23rem]
+                    lg:w-[40rem] 
                     3xl:w-[40rem]">
       {/* Card Header */}
       <div className="flex items-center p-3 border-b border-gray-300">
@@ -63,6 +64,7 @@ export const Card = (post: PostProps) => {
           alt="Post"
           className="w-full object-cover 
                     3xs:h-[30rem]
+                    lg:h-[40rem]
                     3xl:h-[50rem]"
         />
       </div>

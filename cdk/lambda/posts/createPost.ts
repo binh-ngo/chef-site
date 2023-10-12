@@ -27,7 +27,7 @@ const createPost = async (postInput: PostInput) => {
         const post: Post = {
             postId,
             postAuthor: formattedAuthor,
-            authorId: postInput. authorId,
+            authorId: postInput.authorId,
             body: postInput.body,
             tags: postInput.tags,
             likes: 0,

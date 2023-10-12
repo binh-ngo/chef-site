@@ -51,7 +51,7 @@ export const Home = () => {
                 authorId={post.authorId}
                 />
                 </div>
-              <div className='absolute -bottom-80 3xs:right-30 3xl:right-80'>
+              <div className='absolute -bottom-80 3xs:right-30 lg:right-48 3xl:right-80'>
                 <Blur />
               </div>
             </>
