@@ -37,38 +37,66 @@ const updatePost = async (
         // const eventBody = JSON.parse(event.body);
         // console.log(`EVENT BODY ${eventBody}`);
         console.log(`TYPEOF QUESTIONINPUT --------- ${typeof (postInput)}`);
-    const params = {
-        TableName: process.env.POSTS_TABLE,
-        Key: {
-            PK: `POST#${postId}`,
-            SK: `POST#${postId}`,
-        },
-        UpdateExpression:
-            "set #body = :body, #tags = :tags, #imageUrl = :imageUrl, #updatedAt = :updatedAt",
-        ExpressionAttributeNames: {
-            "#body": "body",
-            "#tags": "tags",
-            "#imageUrl": "imageUrl",
-            "#updatedAt": "updatedAt",
-        },
-        ExpressionAttributeValues: {
-            ":body": post.body,
-            ":tags": post.tags,
-            ":imageUrl": post.imageUrl,
-            ":updatedAt": post.updatedAt,
-        },
-        ReturnValues: "ALL_NEW",
-        ReturnConsumedCapacity: "TOTAL",
-    };
+        
+        const tagPutRequests = post.tags!.flatMap(tag => [
+            {
+                PutRequest: {
+                    Item: {
+                        PK: `TAG#${tag}`,
+                        SK: `POST#${post.postId}`,
+                        type: 'post',
+                        ...post
+                    },
+                },
+            },
+        ]);
+        const batchWriteParams = {
+            RequestItems: {
+                "ChefSiteChefSiteBackendStackC0C43B6F-ChefSiteTable50DF745C-1I4475MN7CYKZ": [
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `POSTS`,
+                                SK: `POST#${postId}`,
+                                type: 'post',
+                                ...post,
+                            },
+                        },
+                    },
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `POST#${postId}`,
+                                SK: `POST#${postId}`,
+                                type: 'post',
+                                ...post,
+                            },
+                        },
+                    },
+                    {
+                        PutRequest: {
+                            Item: {
+                                PK: `CHEF#${postAuthor}`,
+                                SK: `POST#${postId}`,
+                                type: 'post',
+                                ...post,
+                            },
+                        },
+                    },
+                    ...tagPutRequests
+                ],
+            },
+            ReturnConsumedCapacity: "TOTAL",
+        };
 
-    console.log(`params: ${JSON.stringify(params, null, 2)}`);
+    console.log(`batchWriteParams: ${JSON.stringify(batchWriteParams, null, 2)}`);
 
     try {
-        const updatedPost = await docClient.update(params).promise();
+        const updatedPost = await docClient.batchWrite(batchWriteParams).promise();
 
         console.log(`updatedPost: ${JSON.stringify(updatedPost, null, 2)}`);
         
-        return updatedPost.Attributes;
+        return post;
 
     } catch (err) {
         console.log(`DynamoDB Error: ${JSON.stringify(err, null, 2)}`);
