@@ -10,6 +10,7 @@ type Query {
     # getAllChefsByTag(tagName: String!): [Chef]
 
     getAllPosts(postAuthor: String!): [Post]
+    getPublishedPosts: [Post]
     getAllPostsFromAllChefs: [Post]
     getPostById(postAuthor: String!, postId: String!): Post
 
@@ -32,6 +33,7 @@ type Mutation {
     ): Chef @aws_cognito_user_pools
 
     createPost(postInput: PostInput): Post @aws_cognito_user_pools
+    publishPost(postAuthor: String!, postId: String!): Post @aws_cognito_user_pools
     deletePost(postAuthor: String!, postId: String!): String @aws_cognito_user_pools
     updatePost(
       postAuthor: String!
@@ -112,7 +114,9 @@ type Post @aws_api_key @aws_cognito_user_pools {
     likes: Int
     tags: [String]
     createdAt: String
-    updatedAt: String   
+    updatedAt: String 
+    published: Boolean
+    publishDate: String  
 }
 
 type Comment @aws_api_key @aws_cognito_user_pools {

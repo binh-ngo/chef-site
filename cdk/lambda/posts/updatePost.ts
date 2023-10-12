@@ -22,13 +22,15 @@ const updatePost = async (
         const post: Post = {
             postId,
             postAuthor,
-            authorId: postInput.authorId,
-            body: postInput.body,
-            tags: postInput.tags,
-            imageUrl: postInput.imageUrl,
+            authorId: retrievedPost.authorId,
+            body: postInput.body ? postInput.body : retrievedPost.body,
+            tags: postInput.tags ? postInput.tags : retrievedPost.tags,
+            imageUrl: postInput.imageUrl ? postInput.imageUrl : retrievedPost.imageUrl,
             likes: retrievedPost.likes,
             createdAt: retrievedPost.createdAt,
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            published: retrievedPost.published,
+            publishDate: retrievedPost.publishDate
         };
 
         console.log(`UPDATE question called with:` + JSON.stringify(` UserPK: ${postAuthor} and UserSk: ${postId}`));
@@ -42,25 +44,17 @@ const updatePost = async (
             SK: `POST#${postId}`,
         },
         UpdateExpression:
-            "set #postId = :postId, #postAuthor = :postAuthor, #body = :body, #tags = :tags, #imageUrl = :imageUrl, #likes = :likes, #createdAt = :createdAt, #updatedAt = :updatedAt",
+            "set #body = :body, #tags = :tags, #imageUrl = :imageUrl, #updatedAt = :updatedAt",
         ExpressionAttributeNames: {
-            "#postId": "postId",
-            "#postAuthor": "postAuthor",
             "#body": "body",
             "#tags": "tags",
             "#imageUrl": "imageUrl",
-            "#likes": "likes",
-            "#createdAt": "createdAt",
             "#updatedAt": "updatedAt",
         },
         ExpressionAttributeValues: {
-            ":postId": post.postId,
-            ":postAuthor": post.postAuthor,
             ":body": post.body,
             ":tags": post.tags,
             ":imageUrl": post.imageUrl,
-            ":likes": post.likes,
-            ":createdAt": post.createdAt,
             ":updatedAt": post.updatedAt,
         },
         ReturnValues: "ALL_NEW",
@@ -69,48 +63,11 @@ const updatePost = async (
 
     console.log(`params: ${JSON.stringify(params, null, 2)}`);
 
-    const additionalParams = {
-        TableName: process.env.POSTS_TABLE,
-        Key: {
-            PK: `POST#${postId}`,
-            SK: `POST#${postId}`,
-        },
-        UpdateExpression:
-            "set #postId = :postId, #postAuthor = :postAuthor, #body = :body, #tags = :tags, #imageUrl = :imageUrl, #likes = :likes, #createdAt = :createdAt, #updatedAt = :updatedAt",
-        ExpressionAttributeNames: {
-            "#postId": "postId",
-            "#postAuthor": "postAuthor",
-            "#body": "body",
-            "#tags": "tags",
-            "#imageUrl": "imageUrl",
-            "#likes": "likes",
-            "#createdAt": "createdAt",
-            "#updatedAt": "updatedAt",
-        },
-        ExpressionAttributeValues: {
-            ":postId": post.postId,
-            ":postAuthor": post.postAuthor,
-            ":body": post.body,
-            ":tags": post.tags,
-            ":imageUrl": post.imageUrl,
-            ":likes": post.likes,
-            ":createdAt": post.createdAt,
-            ":updatedAt": post.updatedAt,
-        },
-        ReturnValues: "ALL_NEW",
-        ReturnConsumedCapacity: "TOTAL",
-    };
-
-    console.log(`additionalParams: ${JSON.stringify(params, null, 2)}`);
-
     try {
         const updatedPost = await docClient.update(params).promise();
 
         console.log(`updatedPost: ${JSON.stringify(updatedPost, null, 2)}`);
-
-        if(updatedPost) {
-            await docClient.update(additionalParams).promise();
-        }
+        
         return updatedPost.Attributes;
 
     } catch (err) {

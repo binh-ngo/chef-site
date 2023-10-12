@@ -35,6 +35,7 @@ export type PostAppSyncEvent = {
       postId?: string;
       tagName?: string;
       postInput?: PostInput;
+      published?: boolean;
     };
   };
 
@@ -126,6 +127,8 @@ export type Post = {
     imageUrl: string;
     createdAt: string;
     updatedAt: string;
+    published: boolean;
+    publishDate: string;
 }
 
 export type PostInput = {
@@ -140,6 +143,7 @@ export type PostUpdateableFields = {
     body: string;
     tags: string[];
     imageUrl: string;
+    updatedAt: string;
 }
 //~~~~~~~~~~~~~~~~~~~~~~  //
 //       Comment Types    //

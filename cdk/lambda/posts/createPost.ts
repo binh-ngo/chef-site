@@ -33,7 +33,9 @@ const createPost = async (postInput: PostInput) => {
             likes: 0,
             imageUrl,
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            published: false,
+            publishDate: ''
         };
 
         const params = {

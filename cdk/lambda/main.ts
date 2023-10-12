@@ -8,6 +8,8 @@ import deletePost from "./posts/deletePost";
 import getAllPosts from "./posts/getAllPosts";
 import getAllPostsFromAllChefs from "./posts/getAllPostsFromAllChefs";
 import getPostById from "./posts/getPostById";
+import getPublishedPosts from "./posts/getPublishedPosts";
+import publishPost from "./posts/publishPost";
 import updatePost from "./posts/updatePost";
 import createTag from "./tags/createTag";
 import deleteTag from "./tags/deleteTag";
@@ -48,9 +50,11 @@ function getEventType(event: any): "Chef" | "Post" | "Comment" | "Tag" | "Review
       case "updateChef":
         return "Chef";
       case "getAllPosts":
+      case "getPublishedPosts":
       case "getAllPostsFromAllChefs":
       case "getPostById":
       case "createPost":
+      case "publishPost":
       case "deletePost":
       case "updatePost":
         return "Post";
@@ -103,16 +107,17 @@ function handleChefEvent(event: ChefAppSyncEvent) {
 function handlePostEvent(event: PostAppSyncEvent) {
     switch (event.info.fieldName) {
       case "getPostById":
-        // console.log(`QUESTION ---${JSON.stringify(event)}`);
         return getPostById(event.arguments.postAuthor!, event.arguments.postId!);
       case "getAllPosts":
-        // console.log(`QUESTION ---${JSON.stringify(event)}`);
         return getAllPosts(event.arguments.postAuthor!);
       case "getAllPostsFromAllChefs":
-        // console.log(`QUESTION ---${JSON.stringify(event)}`);
         return getAllPostsFromAllChefs();
+      case "getPublishedPosts":
+        return getPublishedPosts();
       case "createPost":
         return createPost(event.arguments.postInput!);
+      case "publishPost":
+        return publishPost(event.arguments.postAuthor!, event.arguments.postId!, event.arguments.published!);
       case "updatePost":
         return updatePost(
           event.arguments.postAuthor!,
