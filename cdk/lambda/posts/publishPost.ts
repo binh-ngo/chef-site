@@ -2,15 +2,14 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const publishPost = async (
-    postAuthor: string,
     postId: string,
     published: boolean
 ) => {
     const params = {
         TableName: process.env.POSTS_TABLE,
         Key: {
-            PK: `POST#${postAuthor}`,
-            SK: postId,
+            PK: `POSTS`,
+            SK: `POST#${postId}`,
         },
         UpdateExpression:
             "set #published = :published, #publishDate = :publishDate",

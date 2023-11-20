@@ -122,7 +122,7 @@ function CreatePostForm() {
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-semibold mb-4">Edit Profile</h1>
+            <h1 className="text-2xl font-semibold mb-4">Create Post</h1>
             <form encType='multipart/form-data' onSubmit={handleSubmit} className="space-y-4">
             <div className="mb-4">
                     <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-semibold mb-2">
@@ -165,8 +165,9 @@ function CreatePostForm() {
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                     />
                 </div>
-                <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg"
-                >Submit</button>
+                <div>
+                    <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg">Submit</button>
+                </div>
             </form>
         </div>
     );

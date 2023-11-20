@@ -2,7 +2,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { ddbGetChefById } from '../graphql/chefs';
 type PostProps = {
-    // postId: string;
+    postId?: string;
     postAuthor: string;
     body: string;
     authorId: string;

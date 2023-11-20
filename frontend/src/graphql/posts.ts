@@ -211,4 +211,82 @@ export const ddbDeletePost = async (postId: string, postAuthor: string) => {
   console.log(`successfully deleted: ${resp.data.deletePost}`);
 };
 
+const publishPostQuery = `
+  mutation publishPost($postAuthor: String!, $postId: String!, $published: Boolean!) {
+    publishPost(postAuthor: $postAuthor, postId: $postId, published: $published) {
+      postId
+      postAuthor
+      authorId
+      body
+      tags
+      likes
+      imageUrl
+      createdAt
+      updatedAt
+    }
+  }
+`
+export const ddbPublishPost = async (postId: string) => {
+  console.log(`Post getting ready to be published with PostId: ${postId}`);
+  const resp = await API.graphql({
+    query: publishPostQuery,
+    variables: {
+      postId,
+      published: true
+    },
+    authMode: "AMAZON_COGNITO_USER_POOLS",
+  });
+  // console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  console.log(`post ${postId} successfully published: ${resp.data.publishPost}`);
+}
 
+const getPublishedPostsQuery = `
+query getPublishedPosts {
+  getPublishedPosts {
+    postId
+    postAuthor
+    authorId
+    body
+    tags
+    likes
+    imageUrl
+    createdAt
+    updatedAt
+  }
+}
+`;
+export const ddbGetPublishedPosts = async () => {
+  const resp = await API.graphql({ 
+    query: getPublishedPostsQuery,
+    authMode: "API_KEY"
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  return resp.data.getPublishedPosts;
+};
+
+const getUnpublishedPostsQuery = `
+query getUnpublishedPosts {
+  getUnpublishedPosts {
+    postId
+    postAuthor
+    authorId
+    body
+    tags
+    likes
+    imageUrl
+    createdAt
+    updatedAt
+  }
+}
+`;
+export const ddbGetUnpublishedPosts = async () => {
+  const resp = await API.graphql({ 
+    query: getUnpublishedPostsQuery,
+    authMode: "API_KEY"
+  });
+  console.log(`data from GraphQL: ${JSON.stringify(resp, null, 2)}`);
+  // @ts-ignore
+  return resp.data.getUnpublishedPosts;
+};

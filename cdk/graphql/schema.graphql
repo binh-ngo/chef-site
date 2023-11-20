@@ -11,6 +11,7 @@ type Query {
 
     getAllPosts(postAuthor: String!): [Post]
     getPublishedPosts: [Post]
+    getUnpublishedPosts: [Post]
     getAllPostsFromAllChefs: [Post]
     getPostById(postAuthor: String!, postId: String!): Post
 
@@ -33,7 +34,7 @@ type Mutation {
     ): Chef @aws_cognito_user_pools
 
     createPost(postInput: PostInput): Post @aws_cognito_user_pools
-    publishPost(postAuthor: String!, postId: String!): Post @aws_cognito_user_pools
+    publishPost(postId: String!, published: Boolean!): Post @aws_cognito_user_pools
     deletePost(postAuthor: String!, postId: String!): String @aws_cognito_user_pools
     updatePost(
       postAuthor: String!

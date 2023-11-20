@@ -9,6 +9,7 @@ import getAllPosts from "./posts/getAllPosts";
 import getAllPostsFromAllChefs from "./posts/getAllPostsFromAllChefs";
 import getPostById from "./posts/getPostById";
 import getPublishedPosts from "./posts/getPublishedPosts";
+import getUnpublishedPosts from "./posts/getUnpublishedPosts";
 import publishPost from "./posts/publishPost";
 import updatePost from "./posts/updatePost";
 import createTag from "./tags/createTag";
@@ -51,6 +52,7 @@ function getEventType(event: any): "Chef" | "Post" | "Comment" | "Tag" | "Review
         return "Chef";
       case "getAllPosts":
       case "getPublishedPosts":
+      case "getUnpublishedPosts":
       case "getAllPostsFromAllChefs":
       case "getPostById":
       case "createPost":
@@ -114,10 +116,12 @@ function handlePostEvent(event: PostAppSyncEvent) {
         return getAllPostsFromAllChefs();
       case "getPublishedPosts":
         return getPublishedPosts();
+      case "getUnpublishedPosts":
+        return getUnpublishedPosts();
       case "createPost":
         return createPost(event.arguments.postInput!);
       case "publishPost":
-        return publishPost(event.arguments.postAuthor!, event.arguments.postId!, event.arguments.published!);
+        return publishPost(event.arguments.postId!, event.arguments.published!);
       case "updatePost":
         return updatePost(
           event.arguments.postAuthor!,

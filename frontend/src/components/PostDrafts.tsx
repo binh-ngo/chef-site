@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { ddbGetPublishedPosts } from '../graphql/posts';
-import { Card } from '../components/Card';
-import { Blur } from '../components/Blur';
+import { ddbGetUnpublishedPosts, ddbPublishPost } from '../graphql/posts';
+import { Card } from './Card';
+import { Blur } from './Blur';
 
 type ddbGetAllQueryResponse = {
   postId: string;
@@ -18,12 +18,12 @@ type ddbGetAllQueryResponse = {
   publishDate: string;
 }
 
-export const Home = () => {
+export const PostDrafts = () => {
   const [posts, setPosts] = useState<ddbGetAllQueryResponse[]>([]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const response = await ddbGetPublishedPosts();
+      const response = await ddbGetUnpublishedPosts();
       setPosts(response);
       console.log(response);
     };
@@ -34,6 +34,15 @@ export const Home = () => {
     const sortedPosts = posts.sort(
       (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
     );
+
+  const publishPost = async(postId: string) => {
+    try {
+      const response = await ddbPublishPost(postId);
+      console.log(response);
+    } catch (err) {
+      console.log(`err: ${JSON.stringify(err, null, 2)}`);
+    }
+  }
 
     return (
       <>
@@ -52,6 +61,7 @@ export const Home = () => {
                 createdAt={post.createdAt}
                 authorId={post.authorId}
                 />
+                  <button onClick={() => publishPost(post.postId!)} className="w-full bg-blue-500 hover-bg-blue-600 text-white font-semibold py-2 rounded-lg">Publish Post</button>
                 </div>
               <div className='absolute -bottom-80 3xs:right-30 lg:right-48 3xl:right-80'>
                 <Blur />

@@ -155,6 +155,10 @@ import { Effect, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws
       })
       chefSiteDataSource.createResolver({
         typeName: "Query",
+        fieldName: "getUnpublishedPosts",
+      })
+      chefSiteDataSource.createResolver({
+        typeName: "Query",
         fieldName: "getAllPostsFromAllChefs",
       })
       chefSiteDataSource.createResolver({
