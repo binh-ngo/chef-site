@@ -20,3 +20,8 @@ ChefExposure is a platform designed for passionate chefs to showcase their culin
 - **Database**: DynamoDB is employed as the backend database to store and retrieve chef and dish information.
 
 
+## Contact
+
+- **Blog**: [Medium](https://medium.com/@binhnngo)
+- **LinkedIn**: [Binh Ngo](https://www.linkedin.com/in/binh-nguyen-ngo/)
+- **Portfolio**: [binhngo.me](https://www.binhngo.me/)
