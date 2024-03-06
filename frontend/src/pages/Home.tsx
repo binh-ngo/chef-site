@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { ddbGetPublishedPosts } from '../graphql/posts';
+import { ddbGetAllPosts, ddbGetPublishedPosts } from '../graphql/posts';
 import { Card } from '../components/Card';
 import { Blur } from '../components/Blur';
 
@@ -23,7 +23,7 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const response = await ddbGetPublishedPosts();
+      const response = await ddbGetAllPosts("BinhNgo");
       setPosts(response);
       console.log(response);
     };
