@@ -16,7 +16,7 @@ function PictureComponent() {
       3xl:w-80 3xl:h-80
       xs:w-60 xs:h-60 
       2xs:w-80 2xs:h-80 
-      3xs:w-60 3xs:h-60">
+      3xs:w-40 3xs:h-40">
         <Link to="/recipes">
           <img
             onMouseEnter={() => setShowIcon(true)}
@@ -39,7 +39,7 @@ function PictureComponent() {
         3xl:w-40 3xl:h-40
         xs:w-30 xs:h-30
         2xs:w-40 2xs:h-40 
-        3xs:w-28 3xs:h-28">
+        3xs:w-20 3xs:h-20">
           <img
             src={beets}
             alt="beets"
@@ -50,7 +50,7 @@ function PictureComponent() {
         3xl:w-40 3xl:h-40
         xs:w-30 xs:h-30
         2xs:w-40 2xs:h-40 
-        3xs:w-28 3xs:h-28 ">
+        3xs:w-20 3xs:h-20">
           <img
             src={handroll}
             alt="handroll"
@@ -61,7 +61,7 @@ function PictureComponent() {
         3xl:w-40 3xl:h-40
         xs:w-30 xs:h-30
         2xs:w-40 2xs:h-40 
-        3xs:w-28 3xs:h-28">
+        3xs:w-20 3xs:h-20">
           <img
             src={brioche}
             alt="brioche"

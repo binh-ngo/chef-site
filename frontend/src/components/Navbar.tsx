@@ -1,4 +1,8 @@
 import React from 'react';
+import { FaHome } from "react-icons/fa";
+import { IoIosContact } from "react-icons/io";
+import { PiBowlFood } from "react-icons/pi";
+
 const Navbar: React.FC = () => {
   return (
     <nav className="bg-slate-600">
@@ -7,9 +11,9 @@ const Navbar: React.FC = () => {
           <div className="hidden md:block">
             <div className="flex items-baseline space-x-4">
               <ul className='flex flex-row justify-between w-6/12 text-white text-3xl font-extrabold'>
-                <li className='mx-4 hover:text-sky-300'><a href='/events'>Events</a></li>
-                <li className='mx-4 hover:text-sky-300'><a href='/recipes'>Recipes</a></li>
-                <li className='mx-4 hover:text-sky-300'><a href='/contact'>Contact</a></li>
+                <li className='mx-4 hover:text-sky-300 hover:scale-150 transition-all duration-300 ease-in-out'><a href='/events'><FaHome /></a></li>
+                <li className='mx-4 hover:text-sky-300 hover:scale-150 transition-all duration-300 ease-in-out'><a href='/recipes'><PiBowlFood /></a></li>
+                <li className='mx-4 hover:text-sky-300 hover:scale-150 transition-all duration-300 ease-in-out'><a href='/contact'><IoIosContact /></a></li>
               </ul>
             </div>
           </div>
