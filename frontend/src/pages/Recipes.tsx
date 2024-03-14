@@ -3,6 +3,7 @@ import moment from 'moment';
 import { ddbGetAllPosts, ddbGetPublishedPosts } from '../graphql/posts';
 import { Card } from '../components/Card';
 import { Blur } from '../components/Blur';
+import Navbar from '../components/Navbar';
 
 type ddbGetAllQueryResponse = {
   postId: string;
@@ -18,7 +19,7 @@ type ddbGetAllQueryResponse = {
   publishDate: string;
 }
 
-export const Home = () => {
+export const Recipes = () => {
   const [posts, setPosts] = useState<ddbGetAllQueryResponse[]>([]);
 
   useEffect(() => {
@@ -37,31 +38,29 @@ export const Home = () => {
 
     return (
       <>
-        <div className='flex flex-col items-center w-full mt-16'>
+        <Navbar />
+        <div className='flex flex-col items-center w-full bg-slate-600 pb-20'>
           {sortedPosts.map((post: ddbGetAllQueryResponse, index) => (
-            <>
-              <div className='absolute -top-80 left-10 3xl:-top-72 3xl:left-32'>
+            <div key={index} className='relative'>
+              <div className='z-10 absolute -top-[25rem] -left-[18rem] 3xl:-top-72 3xl:left-32'>
                 <Blur />
               </div>
-              <div>
               <Card
-                key={index}
                 postAuthor={post.postAuthor}
                 body={post.body}
                 imageUrl={post.imageUrl}
                 createdAt={post.createdAt}
                 authorId={post.authorId}
-                />
-                </div>
-              <div className='absolute -bottom-80 3xs:right-30 lg:right-48 3xl:right-80'>
+              />
+              <div className='z-10 absolute -bottom-[0rem] 3xs:right-30  md:-bottom-[5rem] md:-right-[18rem] 3xl:right-80'>
                 <Blur />
               </div>
-            </>
+            </div>
           ))}
         </div>
       </>
     );
-  }
+  };
   return (
     <>
       {renderQuestions()}

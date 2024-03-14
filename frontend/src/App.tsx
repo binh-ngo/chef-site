@@ -11,7 +11,7 @@ import { awsconfig } from "./aws-exports";
 import CreateAccountForm from "./components/CreateAccountForm";
 import { LandingPage } from "./pages/LandingPage";
 import { Login } from "./components/Login";
-import { Home } from "./pages/Home";
+import { Recipes } from "./pages/Recipes";
 import CreatePostForm from "./components/CreatePostForm";
 import { PostDrafts } from "./components/PostDrafts";
 Amplify.configure(awsconfig);
@@ -23,7 +23,7 @@ function App() {
       <Account>
         <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/recipes" element={<Recipes />} />
         <Route path="/drafts" element={<PostDrafts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/edit" element={<EditChefForm />} />

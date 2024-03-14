@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { BsBoxArrowInRight } from 'react-icons/bs'
 import { useState } from 'react';
-const photo = require('../assets/landingphoto.webp')
+const photo = require('../assets/profile.webp')
 const beets = require('../assets/beets.webp')
-const burger = require('../assets/burger.webp')
+const brioche = require('../assets/brioche.jpg')
 const handroll = require('../assets/handroll.webp')
 
 function PictureComponent() {
@@ -63,8 +63,8 @@ function PictureComponent() {
         2xs:w-40 2xs:h-40 
         3xs:w-28 3xs:h-28">
           <img
-            src={burger}
-            alt="burger"
+            src={brioche}
+            alt="brioche"
             className="w-full h-full object-cover"
           />
         </div>
