@@ -1,6 +1,6 @@
 # ChefExposure
 
-ChefExposure is a platform designed for passionate chefs to showcase their culinary masterpieces and gain the exposure they deserve. This web application allows chefs to display stunning images of their dishes, share recipes, and connect with a broader audience of food enthusiasts. This project is still a work in progress but you can view the website [here](https://d207pofyxzgui1.cloudfront.net/). 
+ChefExposure will be a platform designed for passionate chefs to showcase their culinary masterpieces and gain the exposure they deserve. This web application allows chefs to display stunning images of their dishes, share recipes, and connect with a broader audience of food enthusiasts. This project is still a work in progress, and it is currently my personal culinary portfolio, but you can view the website [here](https://d207pofyxzgui1.cloudfront.net/). 
 
 ![Landing Page](/frontend//src/assets/readmeImg.png)
 
