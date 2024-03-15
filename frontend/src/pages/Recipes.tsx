@@ -5,7 +5,7 @@ import { Card } from '../components/Card';
 import { Blur } from '../components/Blur';
 import Navbar from '../components/Navbar';
 
-type ddbGetAllQueryResponse = {
+export type ddbGetAllQueryResponse = {
   postId: string;
   postAuthor: string;
   authorId: string;
