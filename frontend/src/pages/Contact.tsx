@@ -33,7 +33,7 @@ export const Contact: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-slate-600 text-white z-10">
       <div className="rounded px-8 pt-6 pb-8 mb-4 z-10">
-        <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
+        <h2 className="text-2xl font-bold mb-4">Contact me</h2>
 
         <form ref={form} onSubmit={sendEmail}>
           <div className="mb-4">
