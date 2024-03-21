@@ -19,7 +19,7 @@ export const LandingPage = () => {
         </div>
       </div>
       <div>
-        <img src={logo} className="absolute inset-0 w-full h-full object-cover z-0 3xs:-mt-[8rem] 2xl:mt-[0rem]" alt="background" />
+      <img src={logo} className="absolute -mt-[7rem] inset-0 w-full h-full object-cover z-0 rotate-45" alt="background" />
       </div>
       <div className="z-10">
         <Description />

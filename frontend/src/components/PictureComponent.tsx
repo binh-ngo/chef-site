@@ -17,7 +17,7 @@ function PictureComponent() {
       xs:w-60 xs:h-60 
       2xs:w-80 2xs:h-80 
       3xs:w-40 3xs:h-40">
-        <Link to="/recipes">
+        <Link to="/home">
           <img
             onMouseEnter={() => setShowIcon(true)}
             onMouseLeave={() => setShowIcon(false)}
