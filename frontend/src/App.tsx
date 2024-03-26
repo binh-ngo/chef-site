@@ -16,6 +16,7 @@ import CreatePostForm from "./components/CreatePostForm";
 import { PostDrafts } from "./components/PostDrafts";
 import { Home } from "./pages/Home";
 import { Contact } from "./pages/Contact";
+import Navbar from "./components/Navbar";
 Amplify.configure(awsconfig);
 
 function App() {

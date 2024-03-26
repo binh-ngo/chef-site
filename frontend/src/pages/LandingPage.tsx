@@ -4,7 +4,7 @@ const logo = require('../assets/clear-logo.png')
 
 export const LandingPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center text-center bg-slate-600 h-screen">
+    <div className="flex flex-col items-center justify-center text-center bg-slate-600 h-screen overflow-x-hidden">
       <p className="z-10 image-text font-extrabold lg:text-8xl lg:mt-9 3xs:text-5xl">
         Welcome!
       </p>
@@ -19,7 +19,7 @@ export const LandingPage = () => {
         </div>
       </div>
       <div>
-      <img src={logo} className="absolute -mt-[7rem] inset-0 w-full h-full object-cover z-0 rotate-45" alt="background" />
+      <img src={logo} className="absolute -mt-[7rem] inset-0 w-full h-full object-cover z-0 lg:translate-x-[1rem] lg:translate-y-[7rem]" alt="background" />
       </div>
       <div className="z-10">
         <Description />

@@ -15,7 +15,7 @@ function PictureComponent() {
       <div className="relative rounded-full border-4 border-sky-300 overflow-hidden hover:scale-110 transition-all duration-300 ease-in-out
       3xl:w-80 3xl:h-80
       xs:w-60 xs:h-60 
-      2xs:w-80 2xs:h-80 
+      2xs:w-60 2xs:h-60 
       3xs:w-40 3xs:h-40">
         <Link to="/home">
           <img
@@ -37,8 +37,8 @@ function PictureComponent() {
       <div className="flex mt-4 space-x-2">
         <div className="border-4 border-sky-200 relative rounded-full overflow-hidden -mt-28 hover:scale-110 transition-all duration-300 ease-in-out
         3xl:w-40 3xl:h-40
-        xs:w-30 xs:h-30
-        2xs:w-40 2xs:h-40 
+        xs:w-32 xs:h-32
+        2xs:w-32 2xs:h-32 
         3xs:w-20 3xs:h-20">
           <img
             src={beets}
@@ -48,8 +48,8 @@ function PictureComponent() {
         </div>
         <div className="border-4 border-sky-200 relative rounded-full overflow-hidden -mt-10 -ml-10 hover:scale-110 transition-all duration-300 ease-in-out
         3xl:w-40 3xl:h-40
-        xs:w-30 xs:h-30
-        2xs:w-40 2xs:h-40 
+        xs:w-32 xs:h-32
+        2xs:w-32 2xs:h-32 
         3xs:w-20 3xs:h-20">
           <img
             src={handroll}
@@ -59,8 +59,8 @@ function PictureComponent() {
         </div>
         <div className="border-4 border-sky-200 relative rounded-full overflow-hidden -mt-28 hover:scale-110 transition-all duration-300 ease-in-out 
         3xl:w-40 3xl:h-40
-        xs:w-30 xs:h-30
-        2xs:w-40 2xs:h-40 
+        xs:w-32 xs:h-32
+        2xs:w-32 2xs:h-32 
         3xs:w-20 3xs:h-20">
           <img
             src={brioche}

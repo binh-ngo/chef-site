@@ -3,7 +3,7 @@ import moment from 'moment';
 import { ddbGetAllPosts } from '../graphql/posts';
 import Navbar from '../components/Navbar';
 import { ddbGetAllQueryResponse } from './Recipes';
-const profile = require('../assets/profile.webp')
+const profile = require('../assets/profile.webp');
 
 export const Home: React.FC = () => {
   const [posts, setPosts] = useState<ddbGetAllQueryResponse[]>([]);
@@ -27,37 +27,31 @@ export const Home: React.FC = () => {
     );
 
     return (
-      <div className='flex flex-wrap justify-center w-2/3 p-10 -mt-[2rem]'>
-      {sortedPosts && sortedPosts.map((post: ddbGetAllQueryResponse, index) => (
-        <div key={index} className='relative lg:w-1/2 3xs:w-full 3xs:mt-12 px-2'>
-          <div className="relative">
-            <img 
-              className="w-full object-cover m-2 rounded-lg shadow-lg hover:w-full transition-all duration-300 ease-in-out
-              3xs:h-[30rem]
-              lg:h-[40rem]
-              3xl:h-[50rem]"
-              src={removeParams(post.imageUrl)} 
-              alt={post.body} 
-            />
-            <p className='absolute inset-0 flex items-center justify-center text-transparent font-bold text-xl text-center transition-colors duration-300 ease-in-out hover:text-white'>{post.body}</p>
+      <div className='flex flex-wrap justify-center w-full p-4'>
+        {sortedPosts && sortedPosts.map((post: ddbGetAllQueryResponse, index) => (
+          <div key={index} className='w-full md:w-1/2 lg:w-1/3 p-2'>
+            <div className="relative">
+              <img 
+                className="w-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+                src={removeParams(post.imageUrl)} 
+                alt={post.body} 
+              />
+              <p className='absolute inset-0 flex items-center justify-center text-transparent font-bold text-lg text-center transition-colors duration-300 ease-in-out hover:text-white'>{post.body}</p>
+            </div>
           </div>
-          <div className='z-10 absolute -bottom-[0rem] 3xs:right-30  md:-bottom-[5rem] md:-right-[18rem] 3xl:right-80'>
-          </div>
-        </div>
-      ))}
-    </div>
-    
+        ))}
+      </div>
     );
   };
 
   return (
     <>
       <Navbar />
-      <div className="flex justify-center h-full bg-gray-100">
+      <div className="flex justify-center h-full bg-gray-100 md:flex-row 3xs:flex-col">
         <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 pt-[4rem] mr-10">
           <div className="flex items-center justify-center">
             <img
-              className="w-60 h-70 rounded-full shadow-lg"
+              className="w-32 h-32 md:w-40 md:h-48 3xs:h-40 rounded-full shadow-lg"
               src={profile}
               alt="Profile Picture"
             />
